@@ -1,0 +1,12 @@
+{
+  "packageDirectories": [
+    {
+      "path": ".",
+      "default": true
+    }
+  ],
+  "name": "apex-helpers",
+  "namespace": "",
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "54.0"
+}
