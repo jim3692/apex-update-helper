@@ -1,22 +1,36 @@
 public class CoreHelper {
+  /* bundler-make-private */ public static Boolean anyOf (Object recordValue, Object[] values) {
+    for (Object value : values) {
+      if (recordValue == value) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /* bundler-make-private */ public static Boolean falseIfNull (SObject record) {
+    return record != null;
+  }
+
   public interface IFieldExtensionsAction { Boolean run(FieldExtensionsScope extensions); }
   public interface IFutureFieldExtensionsExecutor { Boolean run(); }
 
-  private class FieldExtensionsActionWasUpdated extends UpdateHelperExternals_FieldExtensionsActionWasUpdated {}
+  private class FieldExtensionsActionWasUpdated extends UHExt_FieldExtensionsActionWasUpdated {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_WAS_UPDATED = new FieldExtensionsActionWasUpdated();
-  private class FieldExtensionsActionUpdatedFromAnyOf extends UpdateHelperExternals_FieldExtensionsActionUpdatedFromAnyOf {}
-  public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_UPDATED_FROM_ANY_OF = new FieldExtensionsActionUpdatedFromAnyOf();
-  private class FieldExtensionsActionUpdatedToAnyOf extends UpdateHelperExternals_FieldExtensionsActionUpdatedToAnyOf {}
-  public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_UPDATED_TO_ANY_OF = new FieldExtensionsActionUpdatedToAnyOf();
-  private class FieldExtensionsActionWasAnyOf extends UpdateHelperExternals_FieldExtensionsActionWasAnyOf {}
-  public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_WAS_ANY_OF = new FieldExtensionsActionWasAnyOf();
-  private class FieldExtensionsActionIsAnyOf extends UpdateHelperExternals_FieldExtensionsActionIsAnyOf {}
-  public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_IS_ANY_OF = new FieldExtensionsActionIsAnyOf();
+  private class FieldExtensionsActionUpdatedFrom extends UHExt_FieldExtensionsActionUpdatedFrom {}
+  public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_UPDATED_FROM_ANY_OF = new FieldExtensionsActionUpdatedFrom();
+  private class FieldExtensionsActionUpdatedTo extends UHExt_FieldExtensionsActionUpdatedTo {}
+  public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_UPDATED_TO_ANY_OF = new FieldExtensionsActionUpdatedTo();
+  private class FieldExtensionsActionWas extends UHExt_FieldExtensionsActionWas {}
+  public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_WAS_ANY_OF = new FieldExtensionsActionWas();
+  private class FieldExtensionsActionIs extends UHExt_FieldExtensionsActionIs {}
+  public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_IS_ANY_OF = new FieldExtensionsActionIs();
 
-  public class Scope extends UpdateHelperExternals_Scope {}
-  public class FieldExtensionsScope extends UpdateHelperExternals_FieldExtensionsScope {}
-  public class FieldExtensions extends UpdateHelperExternals_FieldExtensions {}
-  public class FutureFieldExtensions extends UpdateHelperExternals_FutureFieldExtensions {}
+  public class UpdateHelperScope extends UHExt_UpdateHelperScope {}
+  public class FieldExtensionsScope extends UHExt_FieldExtensionsScope {}
+  public class FieldExtensions extends UHExt_FieldExtensions {}
+  // public class FutureFieldExtensions extends UHExt_FutureFieldExtensions {}
 
   public class UpdateHelperInvalidFieldException extends Exception {}
 }

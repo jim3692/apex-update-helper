@@ -1,4 +1,4 @@
-public abstract class UpdateHelperExternals_FieldExtensions {
+public abstract class UHExt_FieldExtensions {
   /* bundler-make-final */ private CoreHelper.FieldExtensionsScope scope;
 
   public void externalInit (UpdateHelper helper, SObjectField field) {

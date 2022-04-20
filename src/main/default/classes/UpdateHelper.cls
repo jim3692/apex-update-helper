@@ -1,10 +1,10 @@
 public class UpdateHelper {
   @TestVisible
-  public Scope scope { get; private set; }
+  public CoreHelper.UpdateHelperScope scope { get; private set; }
 
-  public final SObject oldRecord { get; private set; }
-  public final SObject newRecord { get; private set; }
-  public final Schema.DescribeSObjectResult describe { get; private set; }
+  /* bundler-make-final */ public SObject oldRecord { get; private set; }
+  /* bundler-make-final */ public SObject newRecord { get; private set; }
+  /* bundler-make-final */ public Schema.DescribeSObjectResult describe { get; private set; }
 
   public final FutureRecord futureRecord { get; private set; }
 
@@ -19,7 +19,7 @@ public class UpdateHelper {
   }
 
   public static UpdateHelper of (FutureRecord futureRecord) {
-    this.futureRecord = futureRecord;
+    return new UpdateHelper(futureRecord);
   }
 
   public static UpdateHelper futureOf (SObjectType sobjectType) {
@@ -27,41 +27,41 @@ public class UpdateHelper {
   }
 
   private UpdateHelper (SObject record) {
-    this.scope = new Scope();
+    this.scope = new CoreHelper.UpdateHelperScope();
     this.init(record);
   }
 
   private UpdateHelper (FutureRecord futureRecord) {
-    this.scope = new Scope();
+    this.scope = new CoreHelper.UpdateHelperScope();
   }
 
   private void init (SObject record) {
     this.describe = record.getSObjectType().getDescribe();
 
-    this.oldRecord = scope.oldMap?.get(recordId);
+    this.oldRecord = scope.oldMap?.get(record.Id);
     this.newRecord = record.Id == null
       ? record
       : scope.newMap?.get(record.Id);
   }
 
-  public FieldExtensions field (SObjectField field) {
+  public CoreHelper.FieldExtensions field (SObjectField field) {
     validateField(field);
     System.assert(futureRecord == null);
-    FieldExtensions extensions = new FieldExtensions();
+    CoreHelper.FieldExtensions extensions = new CoreHelper.FieldExtensions();
     extensions.externalInit(this, field);
     return extensions;
   }
 
-  public FutureFieldExtensions futureField (SObjectField field) {
-    System.assert(futureRecord != null);
-  }
+  // public CoreHelper.FutureFieldExtensions futureField (SObjectField field) {
+  //   System.assert(futureRecord != null);
+  // }
 
-  public Boolean futureRun (SObject record) {
-    System.assert(futureRecord != null);
-  }
+  // public Boolean futureRun (SObject record) {
+  //   System.assert(futureRecord != null);
+  // }
 
   private void validateField (SObjectField field) {
-    Schema.DescribeSObjectResult fieldDescribe = field.getDescribe();
+    Schema.DescribeFieldResult fieldDescribe = field.getDescribe();
     String fieldName = fieldDescribe.getName().toLowerCase();
 
     if (describe.fields.getMap().get(fieldName) != field) {
@@ -73,21 +73,7 @@ public class UpdateHelper {
         }
       );
 
-      throw new UpdateHelperInvalidFieldException(errorMessage);
+      throw new CoreHelper.UpdateHelperInvalidFieldException(errorMessage);
     }
-  }
-
-  /* bundler-make-private */ public static Boolean anyOf (Object recordValue, Object[] values) {
-    for (Object value : values) {
-      if (recordValue == value) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  /* bundler-make-private */ public static Boolean falseIfNull (SObject record) {
-    return record != null;
   }
 }
