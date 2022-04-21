@@ -20,7 +20,7 @@ public abstract class UHExt_FutureFieldExtensions {
 
   public CoreHelper.FutureFieldExtensionsExecutor updatedFromAnyOf (Object[] values) {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_UPDATED_FROM_ANY_OF;
-    return getExecutorForAction(action, null);
+    return getExecutorForAction(action, values);
   }
 
   public CoreHelper.FutureFieldExtensionsExecutor updatedFrom (Object value) {
@@ -29,7 +29,7 @@ public abstract class UHExt_FutureFieldExtensions {
 
   public CoreHelper.FutureFieldExtensionsExecutor updatedToAnyOf (Object[] values) {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_UPDATED_TO_ANY_OF;
-    return getExecutorForAction(action, null);
+    return getExecutorForAction(action, values);
   }
 
   public CoreHelper.FutureFieldExtensionsExecutor updatedTo (Object value) {
@@ -38,7 +38,7 @@ public abstract class UHExt_FutureFieldExtensions {
 
   public CoreHelper.FutureFieldExtensionsExecutor wasAnyOf (Object[] values) {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_WAS_ANY_OF;
-    return getExecutorForAction(action, null);
+    return getExecutorForAction(action, values);
   }
 
   public CoreHelper.FutureFieldExtensionsExecutor was (Object value) {
@@ -47,7 +47,7 @@ public abstract class UHExt_FutureFieldExtensions {
 
   public CoreHelper.FutureFieldExtensionsExecutor isAnyOf (Object[] values) {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_IS_ANY_OF;
-    return getExecutorForAction(action, null);
+    return getExecutorForAction(action, values);
   }
 
   public CoreHelper.FutureFieldExtensionsExecutor is (Object value) {
