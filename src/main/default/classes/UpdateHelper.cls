@@ -1,6 +1,6 @@
 public class UpdateHelper {
   @TestVisible
-  public CoreHelper.UpdateHelperScope scope { get; private set; }
+  public CoreHelper.TriggerScope scope { get; private set; }
 
   /* bundler-make-final */ public SObject oldRecord { get; private set; }
   /* bundler-make-final */ public SObject newRecord { get; private set; }
@@ -23,12 +23,12 @@ public class UpdateHelper {
   }
 
   private UpdateHelper (SObject record) {
-    this.scope = new CoreHelper.UpdateHelperScope();
+    this.scope = new CoreHelper.TriggerScope();
     this.init(record);
   }
 
   private UpdateHelper (SObjectType sobjectType) {
-    this.scope = new CoreHelper.UpdateHelperScope();
+    this.scope = new CoreHelper.TriggerScope();
     this.isFuture = true;
     this.init(sobjectType.newSObject());
   }

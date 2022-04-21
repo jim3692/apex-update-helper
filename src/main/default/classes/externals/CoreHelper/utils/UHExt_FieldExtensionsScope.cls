@@ -6,7 +6,7 @@ public abstract class UHExt_FieldExtensionsScope {
   /* bundler-make-final */ private Schema.DescribeSObjectResult sobjectDescribe;
   /* bundler-make-final */ private String fieldName;
 
-  /* bundler-make-final */ public CoreHelper.UpdateHelperScope helperScope { get; private set; }
+  /* bundler-make-final */ public CoreHelper.TriggerScope helperScope { get; private set; }
 
   /* bundler-make-final */ public SObject oldRecord { get; private set; }
   /* bundler-make-final */ public SObject newRecord { get; private set; }

@@ -1,4 +1,4 @@
-public abstract class UHExt_UpdateHelperScope {
+public abstract class UHExt_TriggerScope {
   @TestVisible
   public Map<Id,SObject> oldMap { get; private set; }
   @TestVisible
@@ -6,7 +6,7 @@ public abstract class UHExt_UpdateHelperScope {
   @TestVisible
   public Boolean isUpdate { get; private set; }
 
-  public UHExt_UpdateHelperScope () {
+  public UHExt_TriggerScope () {
     this.oldMap = Trigger.oldMap;
     this.newMap = Trigger.newMap;
     this.isUpdate = Trigger.isUpdate;

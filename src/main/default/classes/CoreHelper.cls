@@ -26,7 +26,7 @@ public class CoreHelper {
   private class FieldExtensionsActionIs extends UHExt_FieldExtensionsActionIs {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_IS_ANY_OF = new FieldExtensionsActionIs();
 
-  public class UpdateHelperScope extends UHExt_UpdateHelperScope {}
+  public class TriggerScope extends UHExt_TriggerScope {}
   public class FieldExtensionsScope extends UHExt_FieldExtensionsScope {}
   public class FieldExtensions extends UHExt_FieldExtensions {}
   public class FutureFieldExtensions extends UHExt_FutureFieldExtensions {}
