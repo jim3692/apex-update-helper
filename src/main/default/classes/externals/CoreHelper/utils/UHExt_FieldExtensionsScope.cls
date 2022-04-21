@@ -2,10 +2,9 @@ public abstract class UHExt_FieldExtensionsScope {
   /* bundler-make-final */ public UpdateHelper.UpdateHelperScope helperScope { get; private set; }
   /* bundler-make-final */ public SObjectField field { get; private set; }
 
-  /* bundler-make-final */ private Schema.DescribeFieldResult fieldDescribe;
-  /* bundler-make-final */ private Schema.DescribeSObjectResult sobjectDescribe;
-  /* bundler-make-final */ private String fieldName;
-
+  /* bundler-make-final */ public Schema.DescribeFieldResult fieldDescribe { get; private set; }
+  /* bundler-make-final */ public Schema.DescribeSObjectResult sobjectDescribe { get; private set; }
+  /* bundler-make-final */ public String fieldName { get; private set; }
 
   /* bundler-make-final */ public SObject oldRecord { get; private set; }
   /* bundler-make-final */ public SObject newRecord { get; private set; }

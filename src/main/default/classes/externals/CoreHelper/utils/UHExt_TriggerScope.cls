@@ -9,6 +9,6 @@ public abstract class UHExt_TriggerScope {
   public UHExt_TriggerScope () {
     this.oldMap = Trigger.oldMap;
     this.newMap = Trigger.newMap;
-    this.isUpdate = Trigger.isUpdate;
+    this.isUpdate = Trigger.isUpdate == null ? false : Trigger.isUpdate;
   }
 }

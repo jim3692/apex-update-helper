@@ -15,5 +15,9 @@ public abstract class UHExt_UpdateHelperScope {
     this.newRecord = record.Id == null
       ? record
       : triggerScope.newMap?.get(record.Id);
+
+    if (this.newRecord == null) {
+      this.newRecord = record;
+    }
   }
 }
