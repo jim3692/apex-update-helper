@@ -2,14 +2,13 @@ public abstract class UHExt_FutureFieldExtensions {
   /* bundler-make-final */ private CoreHelper.FieldExtensionsScope scope;
   /* bundler-make-final */ private CoreHelper.IFieldExtensionsAction action;
 
-  public void externalInit (UpdateHelper helper, SObjectField field) {
+  public void externalInit (UpdateHelper.UpdateHelperScope helperScope, SObjectField field) {
     this.scope = new CoreHelper.FieldExtensionsScope();
-    this.scope.externalInit(helper, field);
+    this.scope.externalInit(helperScope, field);
   }
 
-  public void externalInit (UpdateHelper helper, SObjectField field, CoreHelper.IFieldExtensionsAction action) {
-    this.scope = new CoreHelper.FieldExtensionsScope();
-    externalInit(helper, field);
+  public void externalInit (UpdateHelper.UpdateHelperScope helperScope, SObjectField field, CoreHelper.IFieldExtensionsAction action) {
+    externalInit(helperScope, field);
     this.action = action;
   }
 
@@ -56,7 +55,7 @@ public abstract class UHExt_FutureFieldExtensions {
 
   private CoreHelper.FutureFieldExtensionsExecutor getExecutorForAction (CoreHelper.IFieldExtensionsAction action, Object[] values) {
     CoreHelper.FutureFieldExtensionsExecutor executor = new CoreHelper.FutureFieldExtensionsExecutor();
-    executor.externalInit(action, values);
+    executor.externalInit(scope, action, values);
     return executor;
   }
 }

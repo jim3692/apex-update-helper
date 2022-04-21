@@ -1,10 +1,7 @@
 public class UpdateHelper {
   @TestVisible
-  public CoreHelper.TriggerScope scope { get; private set; }
-
-  /* bundler-make-final */ public SObject oldRecord { get; private set; }
-  /* bundler-make-final */ public SObject newRecord { get; private set; }
-  /* bundler-make-final */ public Schema.DescribeSObjectResult describe { get; private set; }
+  public CoreHelper.TriggerScope triggerScope { get; private set; }
+  public UpdateHelperScope scope { get; private set; }
 
   public final Boolean isFuture { get; private set; }
 
@@ -23,30 +20,24 @@ public class UpdateHelper {
   }
 
   private UpdateHelper (SObject record) {
-    this.scope = new CoreHelper.TriggerScope();
-    this.init(record);
+    this.triggerScope = new CoreHelper.TriggerScope();
+    this.scope = new UpdateHelperScope();
+    this.scope.externalInit(this.triggerScope, record);
   }
 
   private UpdateHelper (SObjectType sobjectType) {
-    this.scope = new CoreHelper.TriggerScope();
+    this.triggerScope = new CoreHelper.TriggerScope();
     this.isFuture = true;
-    this.init(sobjectType.newSObject());
-  }
-
-  private void init (SObject record) {
-    this.describe = record.getSObjectType().getDescribe();
-
-    this.oldRecord = scope.oldMap?.get(record.Id);
-    this.newRecord = record.Id == null
-      ? record
-      : scope.newMap?.get(record.Id);
+    SObject record = sobjectType.newSObject();
+    this.scope = new UpdateHelperScope();
+    this.scope.externalInit(this.triggerScope, record);
   }
 
   public CoreHelper.FieldExtensions field (SObjectField field) {
     System.assert(!isFuture);
     validateField(field);
     CoreHelper.FieldExtensions extensions = new CoreHelper.FieldExtensions();
-    extensions.externalInit(this, field);
+    extensions.externalInit(scope, field);
     return extensions;
   }
 
@@ -54,7 +45,7 @@ public class UpdateHelper {
     System.assert(isFuture);
     validateField(field);
     CoreHelper.FutureFieldExtensions extensions = new CoreHelper.FutureFieldExtensions();
-    extensions.externalInit(this, field);
+    extensions.externalInit(scope, field);
     return extensions;
   }
 
@@ -62,16 +53,18 @@ public class UpdateHelper {
     Schema.DescribeFieldResult fieldDescribe = field.getDescribe();
     String fieldName = fieldDescribe.getName().toLowerCase();
 
-    if (describe.fields.getMap().get(fieldName) != field) {
+    if (scope.describe.fields.getMap().get(fieldName) != field) {
       String errorMessage = String.format(
         'Field "{0}" does not belong to SObject "{1}"',
         new String[] {
           fieldDescribe.getName(),
-          describe.getName()
+          scope.describe.getName()
         }
       );
 
       throw new CoreHelper.UpdateHelperInvalidFieldException(errorMessage);
     }
   }
+
+  public class UpdateHelperScope extends UHExt_UpdateHelperScope {}
 }

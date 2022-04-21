@@ -1,9 +1,9 @@
 public abstract class UHExt_FieldExtensions {
   /* bundler-make-final */ private CoreHelper.FieldExtensionsScope scope;
 
-  public void externalInit (UpdateHelper helper, SObjectField field) {
+  public void externalInit (UpdateHelper.UpdateHelperScope helperScope, SObjectField field) {
     this.scope = new CoreHelper.FieldExtensionsScope();
-    this.scope.externalInit(helper, field);
+    this.scope.externalInit(helperScope, field);
   }
 
   public Boolean wasUpdated () {
