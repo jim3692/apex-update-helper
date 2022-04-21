@@ -6,7 +6,7 @@ public class UpdateHelper {
   /* bundler-make-final */ public SObject newRecord { get; private set; }
   /* bundler-make-final */ public Schema.DescribeSObjectResult describe { get; private set; }
 
-  public final FutureRecord futureRecord { get; private set; }
+  public final Boolean isFuture { get; private set; }
 
   public static UpdateHelper of (Id recordId) {
     SObject record = recordId.getSObjectType().newSObject();
@@ -18,12 +18,8 @@ public class UpdateHelper {
     return new UpdateHelper(record);
   }
 
-  public static UpdateHelper of (FutureRecord futureRecord) {
-    return new UpdateHelper(futureRecord);
-  }
-
   public static UpdateHelper futureOf (SObjectType sobjectType) {
-    return of(new FutureRecord(sobjectType));
+    return new UpdateHelper(sobjectType);
   }
 
   private UpdateHelper (SObject record) {
@@ -31,8 +27,10 @@ public class UpdateHelper {
     this.init(record);
   }
 
-  private UpdateHelper (FutureRecord futureRecord) {
+  private UpdateHelper (SObjectType sobjectType) {
     this.scope = new CoreHelper.UpdateHelperScope();
+    this.isFuture = true;
+    this.init(sobjectType.newSObject());
   }
 
   private void init (SObject record) {
@@ -45,20 +43,20 @@ public class UpdateHelper {
   }
 
   public CoreHelper.FieldExtensions field (SObjectField field) {
+    System.assert(!isFuture);
     validateField(field);
-    System.assert(futureRecord == null);
     CoreHelper.FieldExtensions extensions = new CoreHelper.FieldExtensions();
     extensions.externalInit(this, field);
     return extensions;
   }
 
-  // public CoreHelper.FutureFieldExtensions futureField (SObjectField field) {
-  //   System.assert(futureRecord != null);
-  // }
-
-  // public Boolean futureRun (SObject record) {
-  //   System.assert(futureRecord != null);
-  // }
+  public CoreHelper.FutureFieldExtensions futureField (SObjectField field) {
+    System.assert(isFuture);
+    validateField(field);
+    CoreHelper.FutureFieldExtensions extensions = new CoreHelper.FutureFieldExtensions();
+    extensions.externalInit(this, field);
+    return extensions;
+  }
 
   private void validateField (SObjectField field) {
     Schema.DescribeFieldResult fieldDescribe = field.getDescribe();

@@ -13,8 +13,7 @@ public class CoreHelper {
     return record != null;
   }
 
-  public interface IFieldExtensionsAction { Boolean run(FieldExtensionsScope extensions); }
-  public interface IFutureFieldExtensionsExecutor { Boolean run(); }
+  public interface IFieldExtensionsAction { Boolean run(FieldExtensionsScope scope); }
 
   private class FieldExtensionsActionWasUpdated extends UHExt_FieldExtensionsActionWasUpdated {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_WAS_UPDATED = new FieldExtensionsActionWasUpdated();
@@ -30,7 +29,8 @@ public class CoreHelper {
   public class UpdateHelperScope extends UHExt_UpdateHelperScope {}
   public class FieldExtensionsScope extends UHExt_FieldExtensionsScope {}
   public class FieldExtensions extends UHExt_FieldExtensions {}
-  // public class FutureFieldExtensions extends UHExt_FutureFieldExtensions {}
+  public class FutureFieldExtensions extends UHExt_FutureFieldExtensions {}
+  public class FutureFieldExtensionsExecutor extends UHExt_FutureFieldExtensionsExecutor {}
 
   public class UpdateHelperInvalidFieldException extends Exception {}
 }

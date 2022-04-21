@@ -1,6 +1,6 @@
 public abstract class UHExt_FieldExtensionsScope {
-  /* bundler-make-final */ private UpdateHelper helper;
-  /* bundler-make-final */ private SObjectField field;
+  /* bundler-make-final */ public UpdateHelper helper { get; private set; }
+  /* bundler-make-final */ public SObjectField field { get; private set; }
 
   /* bundler-make-final */ private Schema.DescribeFieldResult fieldDescribe;
   /* bundler-make-final */ private Schema.DescribeSObjectResult sobjectDescribe;

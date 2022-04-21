@@ -1,84 +1,62 @@
-public abstract class UHExt_FutureFieldExtensions implements UpdateHelper.IFutureFieldExtensionsExecutor {
-  /* bundler-make-final */ private UpdateHelper helper;
-  /* bundler-make-final */ private SObjectField field;
-  /* bundler-make-final */ private CoreHelper.Scope scope;
-
-  /* bundler-make-final */ private Schema.DescribeSObjectResult fieldDescribe;
-  /* bundler-make-final */ private Schema.DescribeSObjectResult sobjectDescribe;
-  /* bundler-make-final */ private String fieldName;
-
-  private SObject oldRecord;
-  private SObject newRecord;
-  private Object oldValue;
-  private Object newValue;
+public abstract class UHExt_FutureFieldExtensions {
+  /* bundler-make-final */ private CoreHelper.FieldExtensionsScope scope;
+  /* bundler-make-final */ private CoreHelper.IFieldExtensionsAction action;
 
   public void externalInit (UpdateHelper helper, SObjectField field) {
-    this.helper = helper;
-    this.field = field;
-    this.scope = this.helper.scope;
-
-    this.fieldDescribe = this.field.getDescribe();
-    this.sobjectDescribe = this.helper.describe;
-    this.fieldName = this.fieldDescribe.getName().toLowerCase();
-
-    this.oldRecord = this.helper.oldRecord;
-    this.newRecord = this.helper.newRecord;
-    this.oldValue = this.oldRecord?.get(this.fieldName);
-    this.newValue = this.newRecord?.get(this.fieldName);
+    this.scope = new CoreHelper.FieldExtensionsScope();
+    this.scope.externalInit(helper, field);
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor wasUpdated () {
-    return scope.isUpdate
-      && oldValue != newValue;
+  public void externalInit (UpdateHelper helper, SObjectField field, CoreHelper.IFieldExtensionsAction action) {
+    this.scope = new CoreHelper.FieldExtensionsScope();
+    externalInit(helper, field);
+    this.action = action;
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor updatedFromAnyOf (Object[] values) {
-    return wasUpdated()
-      && anyOf(oldValue, values);
+  public CoreHelper.FutureFieldExtensionsExecutor wasUpdated () {
+    CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_WAS_UPDATED;
+    return getExecutorForAction(action, null);
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor updatedFrom (Object value) {
+  public CoreHelper.FutureFieldExtensionsExecutor updatedFromAnyOf (Object[] values) {
+    CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_UPDATED_FROM_ANY_OF;
+    return getExecutorForAction(action, null);
+  }
+
+  public CoreHelper.FutureFieldExtensionsExecutor updatedFrom (Object value) {
     return updatedFromAnyOf(new Object[] { value });
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor updatedToAnyOf (Object[] values) {
-    return wasUpdated()
-      && anyOf(newValue, values);
+  public CoreHelper.FutureFieldExtensionsExecutor updatedToAnyOf (Object[] values) {
+    CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_UPDATED_TO_ANY_OF;
+    return getExecutorForAction(action, null);
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor updatedTo (Object value) {
+  public CoreHelper.FutureFieldExtensionsExecutor updatedTo (Object value) {
     return updatedToAnyOf(new Object[] { value });
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor wasAnyOf (Object[] values) {
-    return falseIfNull(oldRecord)
-      && anyOf(oldValue, values);
+  public CoreHelper.FutureFieldExtensionsExecutor wasAnyOf (Object[] values) {
+    CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_WAS_ANY_OF;
+    return getExecutorForAction(action, null);
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor was (Object value) {
+  public CoreHelper.FutureFieldExtensionsExecutor was (Object value) {
     return wasAnyOf(new Object[] { value });
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor isAnyOf (Object[] values) {
-    return falseIfNull(newRecord)
-      && anyOf(newValue, values);
+  public CoreHelper.FutureFieldExtensionsExecutor isAnyOf (Object[] values) {
+    CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_IS_ANY_OF;
+    return getExecutorForAction(action, null);
   }
 
-  public CoreHelper.IFutureFieldExtensionsExecutor is (Object value) {
+  public CoreHelper.FutureFieldExtensionsExecutor is (Object value) {
     return isAnyOf(new Object[] { value });
   }
 
-  private Boolean anyOf (Object recordValue, Object[] values) {
-    for (Object value : values) {
-      if (recordValue == value) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  private Boolean falseIfNull (SObject record) {
-    return record != null;
+  private CoreHelper.FutureFieldExtensionsExecutor getExecutorForAction (CoreHelper.IFieldExtensionsAction action, Object[] values) {
+    CoreHelper.FutureFieldExtensionsExecutor executor = new CoreHelper.FutureFieldExtensionsExecutor();
+    executor.externalInit(action, values);
+    return executor;
   }
 }
