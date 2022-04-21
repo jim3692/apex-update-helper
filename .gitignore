@@ -19,6 +19,6 @@ node_modules
 .dist
 
 *.cls-meta.xml
-!*.cls-meta.xml
+!/meta/.cls-meta.xml
 *.trigger-meta.xml
-!*.trigger-meta.xml
+!/meta/.trigger-meta.xml
