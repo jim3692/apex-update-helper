@@ -103,6 +103,50 @@ class ScopeTest {
     System.assertEquals(record, fes.newRecord);
     System.assertEquals(null, fes.oldValue);
     System.assertEquals(null, fes.newValue);
+    System.assertEquals(null, fes.values);
+  }
+
+  @IsTest
+  static void fieldExtensionsScopeValues () {
+    CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
+    Account record = new Account();
+    List<String> values = new List<String>{ 'a', 'b', 'c' };
+
+    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    uhs.externalInit(ts, record);
+
+    { // Prevent reuse of variables
+      CoreHelper.FieldExtensionsScope fesValuesFromConstructor = new CoreHelper.FieldExtensionsScope();
+      fesValuesFromConstructor.externalInit(uhs, Account.Name, values);
+
+      System.assertEquals(uhs, fesValuesFromConstructor.helperScope);
+      System.assertEquals(Account.Name, fesValuesFromConstructor.field);
+      System.assertEquals(Account.Name.getDescribe(), fesValuesFromConstructor.fieldDescribe);
+      System.assertEquals(Account.getSObjectType().getDescribe(), fesValuesFromConstructor.sobjectDescribe);
+      System.assertEquals('name', fesValuesFromConstructor.fieldName);
+      System.assertEquals(null, fesValuesFromConstructor.oldRecord);
+      System.assertEquals(record, fesValuesFromConstructor.newRecord);
+      System.assertEquals(null, fesValuesFromConstructor.oldValue);
+      System.assertEquals(null, fesValuesFromConstructor.newValue);
+      System.assertEquals(values, fesValuesFromConstructor.values);
+    }
+
+    { // Prevent reuse of variables
+      CoreHelper.FieldExtensionsScope fesValuesFromCopy = new CoreHelper.FieldExtensionsScope();
+      fesValuesFromCopy.externalInit(uhs, Account.Name);
+      fesValuesFromCopy = fesValuesFromCopy.copyWithValues(values);
+
+      System.assertEquals(uhs, fesValuesFromCopy.helperScope);
+      System.assertEquals(Account.Name, fesValuesFromCopy.field);
+      System.assertEquals(Account.Name.getDescribe(), fesValuesFromCopy.fieldDescribe);
+      System.assertEquals(Account.getSObjectType().getDescribe(), fesValuesFromCopy.sobjectDescribe);
+      System.assertEquals('name', fesValuesFromCopy.fieldName);
+      System.assertEquals(null, fesValuesFromCopy.oldRecord);
+      System.assertEquals(record, fesValuesFromCopy.newRecord);
+      System.assertEquals(null, fesValuesFromCopy.oldValue);
+      System.assertEquals(null, fesValuesFromCopy.newValue);
+      System.assertEquals(values, fesValuesFromCopy.values);
+    }
   }
 
   @IsTest
@@ -126,6 +170,7 @@ class ScopeTest {
     System.assertEquals(record, fes.newRecord);
     System.assertEquals(null, fes.oldValue);
     System.assertEquals(null, fes.newValue);
+    System.assertEquals(null, fes.values);
   }
 
   @IsTest
@@ -155,6 +200,7 @@ class ScopeTest {
       System.assertNotEquals('OLD', fesOld.oldValue);
       System.assertEquals('new', fesOld.newValue);
       System.assertNotEquals('NEW', fesOld.newValue);
+      System.assertEquals(null, fesOld.values);
     }
 
     { // Prevent reuse of variables
@@ -175,6 +221,7 @@ class ScopeTest {
       System.assertNotEquals('OLD', fesNew.oldValue);
       System.assertEquals('new', fesNew.newValue);
       System.assertNotEquals('NEW', fesNew.newValue);
+      System.assertEquals(null, fesNew.values);
     }
   }
 
