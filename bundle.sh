@@ -48,59 +48,63 @@ function fixBaseClass () {
   # Fix Constructors
   sed -i "s|public void externalInit|public $extendedClassName|g" $baseClassPath
 
-  fixBaseClass_foreignExternalInitCalls
-  fixBaseClass_externalInitCalls
+  foreignExternalInitCalls $baseClassPath
+  externalInitCalls $baseClassPath
   prepareBaseClassForInjection
 }
 
-function fixBaseClass_foreignExternalInitCalls () {
+function foreignExternalInitCalls () {
+  local classPath=$1
+
   # Replace foreign externalInit calls
-  foreignExternalInitCalls=$(grep -n "\.externalInit" $baseClassPath || true)
+  foreignExternalInitCalls=$(grep -n "\.externalInit" $classPath || true)
   if [ ! "$foreignExternalInitCalls" == "" ]; then
     # Update constructor calls
     echo "$foreignExternalInitCalls" | while read -r externalInitCall ; do
       lineNumber=$(echo "$externalInitCall" | gawk '{print $1}' FS=":")
       previousLineNumber=$(expr $lineNumber - 1)
       parameters=$(echo "$externalInitCall" | egrep -o "\\(.*\\);")
-      sed -i "${previousLineNumber}s|();|$parameters|" $baseClassPath
+      sed -i "${previousLineNumber}s|();|$parameters|" $classPath
     done
 
     # Remove externalInit calls
     echo "$foreignExternalInitCalls" | while read -r externalInitCall ; do
       line=$(echo "$externalInitCall" | gawk '{print $2}' FS=":")
-      sed -i "/$line/d" $baseClassPath
+      sed -i "/$line/d" $classPath
     done
   fi
 }
 
-function fixBaseClass_externalInitCalls () {
+function externalInitCalls () {
+  local classPath=$1
+
   # Replace internal externalInit calls
-  internalExternalInitCalls=$(grep -n "externalInit" $baseClassPath || true)
+  internalExternalInitCalls=$(grep -n "externalInit" $classPath || true)
   if [ ! "$internalExternalInitCalls" == "" ]; then
     # Inject constructor body
     echo "$internalExternalInitCalls" | while read -r externalInitCall ; do
       callLine=$(echo "$externalInitCall" | gawk '{print $2}' FS=":")
 
       # Calculate constructor line numbers
-      constructorLineNumber=$(grep -n "public $extendedClassName" $baseClassPath | gawk '{print $1}' FS=":" | head -n 1)
+      constructorLineNumber=$(grep -n "public $extendedClassName" $classPath | gawk '{print $1}' FS=":" | head -n 1)
       constructorBodyFirstLineNumber=$(expr $constructorLineNumber + 1)
-      constructorClosingBrace=$(tail -n "+$constructorBodyFirstLineNumber" $baseClassPath | grep -n "    }" | head -n 1 | gawk '{print $1}' FS=":")
+      constructorClosingBrace=$(tail -n "+$constructorBodyFirstLineNumber" $classPath | grep -n "    }" | head -n 1 | gawk '{print $1}' FS=":")
       constructorClosingBrace=$(expr $constructorClosingBrace + $constructorBodyFirstLineNumber - 1)
       constructorBodyLastLineNumber=$(expr $constructorClosingBrace - 1)
       constructorBodyLength=$(expr $constructorBodyLastLineNumber - $constructorBodyFirstLineNumber + 1)
 
       # Replace
-      constructorBodyLines=$(tail -n "+$constructorBodyFirstLineNumber" $baseClassPath | head -n $constructorBodyLength)
+      constructorBodyLines=$(tail -n "+$constructorBodyFirstLineNumber" $classPath | head -n $constructorBodyLength)
       echo "$constructorBodyLines" | while read -r line ; do
-        sed -i "s/$callLine/      $line\n$callLine/" $baseClassPath
+        sed -i "s/$callLine/      $line\n$callLine/" $classPath
       done
-      sed -i "s/$callLine//" $baseClassPath
+      sed -i "s/$callLine//" $classPath
     done
 
     # Remove externalInit calls
     echo "$foreignExternalInitCalls" | while read -r externalInitCall ; do
       line=$(echo "$externalInitCall" | gawk '{print $2}' FS=":")
-      sed -i "/$line/d" $baseClassPath
+      sed -i "/$line/d" $classPath
     done
   fi
 }
@@ -155,7 +159,7 @@ function trimEmptyLines () {
   outerClassPath=$1
 
   # Trim empty lines
-  sed -i "s/^\s+$//g" $outerClassPath
+  sed -i "s/ *$//g" $outerClassPath
 }
 
 externals=$(scanExternals)
@@ -164,6 +168,7 @@ classes=$(scanClasses)
 classesNames=$(echo "$classes" | nameOfClass)
 
 echo "$externalsNames" | while IFS= read -r line; do fixBaseClass $line; done
+echo "$classes" | while IFS= read -r line; do foreignExternalInitCalls $line; done
 echo "$classes" | while IFS= read -r line; do fixClass $line; done
 echo "$classes" | while IFS= read -r line; do classBundlerMake $line; done
 echo "$classes" | while IFS= read -r line; do trimEmptyLines $line; done
