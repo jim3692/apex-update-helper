@@ -1,7 +1,16 @@
 public class CoreHelper {
   /* bundler-make-private */ public static Boolean anyOf (Object recordValue, Object[] values) {
     for (Object value : values) {
-      if (recordValue == value) {
+      if (recordValue == null && value == null) {
+        return true;
+      }
+
+      if (recordValue instanceof String) {
+        Integer diff = ((String)recordValue).compareTo((String)value);
+        if (diff == 0) {
+          return true;
+        }
+      } else if (recordValue.equals(value)) {
         return true;
       }
     }
