@@ -32,5 +32,7 @@ public class CoreHelper {
   public class FutureFieldExtensions extends UHExt_FutureFieldExtensions {}
   public class FutureFieldExtensionsExecutor extends UHExt_FutureFieldExtensionsExecutor {}
 
+  public class WhenTheExtensions extends CHExt_WhenTheExtensions {}
+
   public class UpdateHelperInvalidFieldException extends Exception {}
 }
