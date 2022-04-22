@@ -7,11 +7,6 @@ public abstract class UHExt_FutureFieldExtensions {
     this.scope.externalInit(helperScope, field);
   }
 
-  public void externalInit (UpdateHelper.UpdateHelperScope helperScope, SObjectField field, CoreHelper.IFieldExtensionsAction action) {
-    externalInit(helperScope, field);
-    this.action = action;
-  }
-
   public CoreHelper.FutureFieldExtensionsExecutor wasUpdated () {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_WAS_UPDATED;
     return getExecutorForAction(action, null);
