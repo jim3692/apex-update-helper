@@ -81,11 +81,11 @@ class FieldExtensionsTest {
 
   @IsTest
   static void callFromUpdateHelper () {
-    CoreHelper.TriggerScope tr = TestingHelper.getTriggerScope();
-    tr.isUpdate = true;
-    TestingHelper.stubCoreHelper(tr);
+    CoreHelper.TriggerScope ts = TestingHelper.getTriggerScope();
+    ts.isUpdate = true;
+    TestingHelper.stubCoreHelper(ts);
 
-    Id recordId = tr.oldMap.values().get(0).Id;
+    Id recordId = ts.oldMap.values().get(0).Id;
     CoreHelper.FieldExtensions extensions = UpdateHelper.of(recordId).field(Account.Name);
 
     List<String> oldValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
