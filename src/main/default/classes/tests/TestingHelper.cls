@@ -67,6 +67,17 @@ public class TestingHelper {
   }
 
   @TestVisible
+  private static CoreHelper.FutureFieldExtensions getFutureFieldExtensions () {
+    UpdateHelper.UpdateHelperScope scope = getUpdateHelperScope();
+    scope.triggerScope.isUpdate = true;
+
+    CoreHelper.FutureFieldExtensions extensions = new CoreHelper.FutureFieldExtensions();
+    extensions.externalInit(scope, Account.Name);
+
+    return extensions;
+  }
+
+  @TestVisible
   private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope (CoreHelper.TriggerScope ts, Object[] values) {
     Account record = (Account)ts.oldMap.values().get(0);
 
