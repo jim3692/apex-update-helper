@@ -30,6 +30,24 @@ public class TestingHelper {
   }
 
   @TestVisible
+  private static CoreHelper.TriggerScope getTriggerScopeWithMultipleRecords () {
+    CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
+    ts.oldMap = new Map<Id,Account>();
+    ts.newMap = new Map<Id,Account>();
+    ts.isUpdate = true;
+
+    for (Integer i = 0; i < 10; i++) {
+      Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
+      Account oldRecord = new Account(Id = fakeId, Name = ACCOUNT_OLD_NAME + i);
+      Account newRecord = new Account(Id = fakeId, Name = ACCOUNT_NEW_NAME + i);
+      ts.oldMap.put(fakeId, oldRecord);
+      ts.newMap.put(fakeId, newRecord);
+    }
+
+    return ts;
+  }
+
+  @TestVisible
   private static String[] getAccountWrongNames () {
     return new String[] { 'a', 'b', TestingHelper.ACCOUNT_WRONG_NAME };
   }
