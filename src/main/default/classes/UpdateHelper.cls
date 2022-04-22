@@ -4,7 +4,7 @@ public class UpdateHelper {
 
   public static UpdateHelper of (Id recordId) {
     if (recordId == null) {
-      throw new CoreHelper.UpdateHelperNullRecordIdException('Record ID is null');
+      throw new NullRecordIdException('Record ID is null');
     }
 
     SObject record = recordId.getSObjectType().newSObject();
@@ -66,9 +66,12 @@ public class UpdateHelper {
         }
       );
 
-      throw new CoreHelper.UpdateHelperInvalidFieldException(errorMessage);
+      throw new InvalidFieldException(errorMessage);
     }
   }
 
   public class UpdateHelperScope extends UHExt_UpdateHelperScope {}
+
+  public class NullRecordIdException extends Exception {}
+  public class InvalidFieldException extends Exception {}
 }
