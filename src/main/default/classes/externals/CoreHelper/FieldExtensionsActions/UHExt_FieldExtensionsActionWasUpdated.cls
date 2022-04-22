@@ -4,15 +4,6 @@ public abstract class UHExt_FieldExtensionsActionWasUpdated implements CoreHelpe
       return false;
     }
 
-    if (scope.oldValue == null && scope.newValue == null) {
-      return false;
-    }
-
-    if (scope.oldValue instanceof String) {
-      Integer diff = ((String)scope.oldValue).compareTo((String)scope.newValue);
-      return diff != 0;
-    }
-
-    return !scope.oldValue.equals(scope.newValue);
+    return !CoreHelper.caseSensitiveEqualityCheck(scope.oldValue, scope.newValue);
   }
 }

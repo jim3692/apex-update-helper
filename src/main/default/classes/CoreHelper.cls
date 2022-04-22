@@ -2,18 +2,21 @@ public class CoreHelper {
   @TestVisible
   private static CoreHelper mockableInstance = new CoreHelper();
 
-  /* bundler-make-private */ public static Boolean anyOf (Object recordValue, Object[] values) {
-    for (Object value : values) {
-      if (recordValue == null && value == null) {
-        return true;
-      }
+  public static Boolean caseSensitiveEqualityCheck (Object a, Object b) {
+    if (a == null && b == null) {
+      return true;
+    }
 
-      if (recordValue instanceof String) {
-        Integer diff = ((String)recordValue).compareTo((String)value);
-        if (diff == 0) {
-          return true;
-        }
-      } else if (recordValue.equals(value)) {
+    if (a instanceof String && b instanceof String) {
+      return ((String)a).equals((String)b);
+    }
+
+    return a.equals(b);
+  }
+
+  public static Boolean anyOf (Object recordValue, Object[] values) {
+    for (Object value : values) {
+      if (caseSensitiveEqualityCheck(recordValue, value)) {
         return true;
       }
     }
@@ -21,7 +24,7 @@ public class CoreHelper {
     return false;
   }
 
-  /* bundler-make-private */ public static Boolean falseIfNull (SObject record) {
+  public static Boolean falseIfNull (SObject record) {
     return record != null;
   }
 
