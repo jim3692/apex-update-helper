@@ -59,15 +59,16 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private class TriggerScopeProviderMock implements System.StubProvider {
-    private final CoreHelper.TriggerScope scope;
+  private static void stubTriggerScopeProvider (CoreHelper.TriggerScope scope) {
+    CoreHelperMock mock = new CoreHelperMock(scope);
+    CoreHelper.mockableInstance = (CoreHelper)Test.createStub(CoreHelper.class, mock);
+  }
 
-    private TriggerScopeProviderMock (CoreHelper.TriggerScope scope) {
-      this.scope = scope;
-    }
+  private class CoreHelperMock implements System.StubProvider {
+    private final CoreHelper.TriggerScope triggerScope;
 
-    public void stub () {
-      CoreHelper.triggerScopeProvider = (CoreHelper.TriggerScopeProvider)Test.createStub(CoreHelper.TriggerScopeProvider.class, this);
+    public CoreHelperMock (CoreHelper.TriggerScope triggerScope) {
+      this.triggerScope = triggerScope;
     }
 
     public Object handleMethodCall (
@@ -78,7 +79,11 @@ public class TestingHelper {
       List<String> listOfParamNames,
       List<Object> listOfArgs
     ) {
-      return scope;
+      if (stubbedMethodName == 'mockableTriggerScope') {
+        return triggerScope;
+      }
+
+      return null;
     }
   }
 

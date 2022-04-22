@@ -1,4 +1,7 @@
 public class CoreHelper {
+  @TestVisible
+  private static CoreHelper mockableInstance = new CoreHelper();
+
   /* bundler-make-private */ public static Boolean anyOf (Object recordValue, Object[] values) {
     for (Object value : values) {
       if (recordValue == null && value == null) {
@@ -22,17 +25,12 @@ public class CoreHelper {
     return record != null;
   }
 
-  @TestVisible
-  private static TriggerScopeProvider triggerScopeProvider = new TriggerScopeProvider();
-
   public static TriggerScope getTriggerScope () {
-    return triggerScopeProvider.getScope();
+    return mockableInstance.mockableTriggerScope();
   }
 
-  public class TriggerScopeProvider {
-    public TriggerScope getScope () {
-      return new TriggerScope();
-    }
+  public TriggerScope mockableTriggerScope () {
+    return new TriggerScope();
   }
 
   public interface IFieldExtensionsAction { Boolean run(FieldExtensionsScope scope); }
