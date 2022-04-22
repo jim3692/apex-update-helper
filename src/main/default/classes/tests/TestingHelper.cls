@@ -1,4 +1,9 @@
+@IsTest
 public class TestingHelper {
+
+  public static final String ACCOUNT_OLD_NAME = 'Name';
+  public static final String ACCOUNT_NEW_NAME = 'NAME';
+  public static final String ACCOUNT_WRONG_NAME = 'name';
 
   private static Integer fakeIdCounter = 1;
 
@@ -8,6 +13,49 @@ public class TestingHelper {
     String result = String.valueOf(fakeIdCounter++);
     return sot.getDescribe().getKeyPrefix() +
       '0'.repeat(12-result.length()) + result;
+  }
+
+  @TestVisible
+  private static CoreHelper.TriggerScope getTriggerScope () {
+    Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
+    Account oldRecord = new Account(Id = fakeId, Name = ACCOUNT_OLD_NAME);
+    Account newRecord = new Account(Id = fakeId, Name = ACCOUNT_NEW_NAME);
+
+    CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
+    ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
+    ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    ts.isUpdate = false;
+
+    return ts;
+  }
+
+  @TestVisible
+  private static String[] getAccountWrongNames () {
+    return new String[] { 'a', 'b', TestingHelper.ACCOUNT_WRONG_NAME };
+  }
+
+  @TestVisible
+  private static String[] getCorrectValues (String correct) {
+    return new String[] { 'a', 'b', correct };
+  }
+
+  @TestVisible
+  private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope (CoreHelper.TriggerScope ts, Object[] values) {
+    Account record = (Account)ts.oldMap.values().get(0);
+
+    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    uhs.externalInit(ts, record);
+
+    CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
+    fes.externalInit(uhs, Account.Name, values);
+
+    return fes;
+  }
+
+  @TestVisible
+  private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope (Object[] values) {
+    CoreHelper.TriggerScope ts = getTriggerScope();
+    return getFieldExtensionsScope(ts, values);
   }
 
 }

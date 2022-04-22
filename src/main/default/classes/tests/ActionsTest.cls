@@ -4,269 +4,129 @@ class ActionsTest {
   static void fieldExtensionsActionIs () {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_IS_ANY_OF;
 
-    CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-    Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
-    Account oldRecord = new Account(Id = fakeId, Name = 'old');
-    Account newRecord = new Account(Id = fakeId, Name = 'new');
-    ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-    ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_NEW_NAME);
+    List<String> wrongValues = TestingHelper.getAccountWrongNames();
 
-    List<String> correctValues = new List<String>{ 'a', 'b', 'new' };
-    List<String> wrongValues = new List<String>{ 'a', 'b', 'NEW' };
-
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-    uhs.externalInit(ts, oldRecord);
-
-    CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-    fes.externalInit(uhs, Account.Name);
-
-    CoreHelper.FieldExtensionsScope fesCorrect = fes.copyWithValues(correctValues);
+    CoreHelper.FieldExtensionsScope fesCorrect = TestingHelper.getFieldExtensionsScope(correctValues);
+    fesCorrect.helperScope.triggerScope.isUpdate = false;
     System.assert(action.run(fesCorrect));
 
-    CoreHelper.FieldExtensionsScope fesWrong = fes.copyWithValues(wrongValues);
+    CoreHelper.FieldExtensionsScope fesWrong = TestingHelper.getFieldExtensionsScope(wrongValues);
+    fesCorrect.helperScope.triggerScope.isUpdate = false;
     System.assert(!action.run(fesWrong));
+
+    CoreHelper.FieldExtensionsScope fesCorrectIsUpdate = TestingHelper.getFieldExtensionsScope(correctValues);
+    fesCorrectIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(action.run(fesCorrectIsUpdate));
+
+    CoreHelper.FieldExtensionsScope fesWrongIsUpdate = TestingHelper.getFieldExtensionsScope(wrongValues);
+    fesWrongIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(!action.run(fesWrongIsUpdate));
   }
 
   @IsTest
   static void fieldExtensionsActionUpdatedFrom () {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_UPDATED_FROM_ANY_OF;
 
-    Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
-    Account oldRecord = new Account(Id = fakeId, Name = 'old');
-    Account newRecord = new Account(Id = fakeId, Name = 'new');
+    List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
+    List<String> wrongValues = TestingHelper.getAccountWrongNames();
 
-    List<String> correctValues = new List<String>{ 'a', 'b', 'old' };
-    List<String> wrongValues = new List<String>{ 'a', 'b', 'OLD' };
+    CoreHelper.FieldExtensionsScope fesCorrect = TestingHelper.getFieldExtensionsScope(correctValues);
+    fesCorrect.helperScope.triggerScope.isUpdate = false;
+    System.assert(!action.run(fesCorrect));
 
-    {
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    CoreHelper.FieldExtensionsScope fesWrong = TestingHelper.getFieldExtensionsScope(wrongValues);
+    fesWrong.helperScope.triggerScope.isUpdate = false;
+    System.assert(!action.run(fesWrong));
 
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
+    CoreHelper.FieldExtensionsScope fesCorrectIsUpdate = TestingHelper.getFieldExtensionsScope(correctValues);
+    fesCorrectIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(action.run(fesCorrectIsUpdate));
 
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name);
-
-      CoreHelper.FieldExtensionsScope fesCorrect = fes.copyWithValues(correctValues);
-      System.assert(!action.run(fesCorrect));
-
-      CoreHelper.FieldExtensionsScope fesWrong = fes.copyWithValues(wrongValues);
-      System.assert(!action.run(fesWrong));
-    }
-
-    {
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
-      ts.isUpdate = true;
-
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
-
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name);
-
-      CoreHelper.FieldExtensionsScope fesCorrect = fes.copyWithValues(correctValues);
-      System.assert(action.run(fesCorrect));
-
-      CoreHelper.FieldExtensionsScope fesWrong = fes.copyWithValues(wrongValues);
-      System.assert(!action.run(fesWrong));
-    }
-
-    {
-      oldRecord.Name = 'new';
-
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
-      ts.isUpdate = true;
-
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
-
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name);
-
-      CoreHelper.FieldExtensionsScope fesCorrect = fes.copyWithValues(correctValues);
-      System.assert(!action.run(fesCorrect));
-
-      CoreHelper.FieldExtensionsScope fesWrong = fes.copyWithValues(wrongValues);
-      System.assert(!action.run(fesWrong));
-
-      oldRecord.Name = 'old';
-    }
+    CoreHelper.FieldExtensionsScope fesWrongIsUpdate = TestingHelper.getFieldExtensionsScope(wrongValues);
+    fesWrongIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(!action.run(fesWrongIsUpdate));
   }
 
   @IsTest
   static void fieldExtensionsActionUpdatedTo () {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_UPDATED_TO_ANY_OF;
 
-    Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
-    Account oldRecord = new Account(Id = fakeId, Name = 'old');
-    Account newRecord = new Account(Id = fakeId, Name = 'new');
+    List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_NEW_NAME);
+    List<String> wrongValues = TestingHelper.getAccountWrongNames();
 
-    List<String> correctValues = new List<String>{ 'a', 'b', 'new' };
-    List<String> wrongValues = new List<String>{ 'a', 'b', 'NEW' };
+    CoreHelper.FieldExtensionsScope fesCorrect = TestingHelper.getFieldExtensionsScope(correctValues);
+    fesCorrect.helperScope.triggerScope.isUpdate = false;
+    System.assert(!action.run(fesCorrect));
 
-    {
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    CoreHelper.FieldExtensionsScope fesWrong = TestingHelper.getFieldExtensionsScope(wrongValues);
+    fesWrong.helperScope.triggerScope.isUpdate = false;
+    System.assert(!action.run(fesWrong));
 
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
+    CoreHelper.FieldExtensionsScope fesCorrectIsUpdate = TestingHelper.getFieldExtensionsScope(correctValues);
+    fesCorrectIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(action.run(fesCorrectIsUpdate));
 
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name);
-
-      CoreHelper.FieldExtensionsScope fesCorrect = fes.copyWithValues(correctValues);
-      System.assert(!action.run(fesCorrect));
-
-      CoreHelper.FieldExtensionsScope fesWrong = fes.copyWithValues(wrongValues);
-      System.assert(!action.run(fesWrong));
-    }
-
-    {
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
-      ts.isUpdate = true;
-
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
-
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name);
-
-      CoreHelper.FieldExtensionsScope fesCorrect = fes.copyWithValues(correctValues);
-      System.assert(action.run(fesCorrect));
-
-      CoreHelper.FieldExtensionsScope fesWrong = fes.copyWithValues(wrongValues);
-      System.assert(!action.run(fesWrong));
-    }
-
-    {
-      oldRecord.Name = 'new';
-
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
-      ts.isUpdate = true;
-
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
-
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name);
-
-      CoreHelper.FieldExtensionsScope fesCorrect = fes.copyWithValues(correctValues);
-      System.assert(!action.run(fesCorrect));
-
-      CoreHelper.FieldExtensionsScope fesWrong = fes.copyWithValues(wrongValues);
-      System.assert(!action.run(fesWrong));
-
-      oldRecord.Name = 'old';
-    }
+    CoreHelper.FieldExtensionsScope fesWrongIsUpdate = TestingHelper.getFieldExtensionsScope(wrongValues);
+    fesWrongIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(!action.run(fesWrongIsUpdate));
   }
 
   @IsTest
   static void fieldExtensionsActionWas () {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_WAS_ANY_OF;
 
-    CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-    Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
-    Account oldRecord = new Account(Id = fakeId, Name = 'old');
-    Account newRecord = new Account(Id = fakeId, Name = 'new');
-    ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-    ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
+    List<String> wrongValues = TestingHelper.getAccountWrongNames();
 
-    List<String> correctValues = new List<String>{ 'a', 'b', 'old' };
-    List<String> wrongValues = new List<String>{ 'a', 'b', 'OLD' };
-
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-    uhs.externalInit(ts, oldRecord);
-
-    CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-    fes.externalInit(uhs, Account.Name);
-
-    CoreHelper.FieldExtensionsScope fesCorrect = fes.copyWithValues(correctValues);
+    CoreHelper.FieldExtensionsScope fesCorrect = TestingHelper.getFieldExtensionsScope(correctValues);
+    fesCorrect.helperScope.triggerScope.isUpdate = false;
     System.assert(action.run(fesCorrect));
 
-    CoreHelper.FieldExtensionsScope fesWrong = fes.copyWithValues(wrongValues);
+    CoreHelper.FieldExtensionsScope fesWrong = TestingHelper.getFieldExtensionsScope(wrongValues);
+    fesWrong.helperScope.triggerScope.isUpdate = false;
     System.assert(!action.run(fesWrong));
+
+    CoreHelper.FieldExtensionsScope fesCorrectIsUpdate = TestingHelper.getFieldExtensionsScope(correctValues);
+    fesCorrectIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(action.run(fesCorrectIsUpdate));
+
+    CoreHelper.FieldExtensionsScope fesWrongIsUpdate = TestingHelper.getFieldExtensionsScope(wrongValues);
+    fesWrongIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(!action.run(fesWrongIsUpdate));
   }
 
   @IsTest
   static void fieldExtensionsActionWasUpdated () {
     CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_WAS_UPDATED;
 
-    Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
-    Account oldRecord = new Account(Id = fakeId, Name = 'old');
-    Account newRecord = new Account(Id = fakeId, Name = 'new');
+    CoreHelper.FieldExtensionsScope fes = TestingHelper.getFieldExtensionsScope(null);
+    fes.helperScope.triggerScope.isUpdate = false;
+    System.assert(!action.run(fes));
 
-    {
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    CoreHelper.FieldExtensionsScope fesIsUpdate = TestingHelper.getFieldExtensionsScope(null);
+    fesIsUpdate.helperScope.triggerScope.isUpdate = true;
+    System.assert(action.run(fesIsUpdate));
+  }
 
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
+  @IsTest
+  static void fieldExtensionsActionWasUpdatedSameName () {
+    CoreHelper.IFieldExtensionsAction action = CoreHelper.FIELD_EXTENSIONS_ACTION_WAS_UPDATED;
 
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name, null);
-      System.assert(!action.run(fes));
-    }
+    CoreHelper.TriggerScope ts = TestingHelper.getTriggerScope();
+    ((Account)ts.oldMap.values().get(0)).Name = TestingHelper.ACCOUNT_NEW_NAME;
+    ((Account)ts.newMap.values().get(0)).Name = TestingHelper.ACCOUNT_NEW_NAME;
+    ts.isUpdate = false;
 
-    {
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
-      ts.isUpdate = true;
+    CoreHelper.FieldExtensionsScope fes = TestingHelper.getFieldExtensionsScope(ts, null);
+    System.assert(!action.run(fes));
 
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
+    CoreHelper.TriggerScope tsIsUpdate = TestingHelper.getTriggerScope();
+    ((Account)tsIsUpdate.oldMap.values().get(0)).Name = TestingHelper.ACCOUNT_NEW_NAME;
+    ((Account)tsIsUpdate.newMap.values().get(0)).Name = TestingHelper.ACCOUNT_NEW_NAME;
+    tsIsUpdate.isUpdate = true;
 
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name, null);
-      System.assert(action.run(fes));
-    }
-
-    {
-      oldRecord.Name = 'new';
-
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
-      ts.isUpdate = true;
-
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
-
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name, null);
-      System.assert(!action.run(fes));
-
-      oldRecord.Name = 'old';
-    }
-
-    {
-      oldRecord.Name = 'NEW';
-
-      CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-      ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-      ts.newMap = new Map<Id,Account>{fakeId => newRecord};
-      ts.isUpdate = true;
-
-      UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
-      uhs.externalInit(ts, oldRecord);
-
-      CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
-      fes.externalInit(uhs, Account.Name, null);
-      System.assert(action.run(fes));
-
-      oldRecord.Name = 'old';
-    }
+    CoreHelper.FieldExtensionsScope fesIsUpdate = TestingHelper.getFieldExtensionsScope(tsIsUpdate, null);
+    System.assert(!action.run(fesIsUpdate));
   }
 }
