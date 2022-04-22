@@ -38,7 +38,10 @@ public class UpdateHelper {
   }
 
   public CoreHelper.FieldExtensions field (SObjectField field) {
-    System.assert(!isFuture);
+    if (isFuture) {
+      throw new IllegalFieldCallException('Cannot call "field" on future-enabled UpdateHelper instances');
+    }
+
     validateField(field);
     CoreHelper.FieldExtensions extensions = new CoreHelper.FieldExtensions();
     extensions.externalInit(scope, field);
@@ -46,7 +49,10 @@ public class UpdateHelper {
   }
 
   public CoreHelper.FutureFieldExtensions futureField (SObjectField field) {
-    System.assert(isFuture);
+    if (!isFuture) {
+      throw new IllegalFieldCallException('Cannot call "futureField" on future-disabled UpdateHelper instances');
+    }
+
     validateField(field);
     CoreHelper.FutureFieldExtensions extensions = new CoreHelper.FutureFieldExtensions();
     extensions.externalInit(scope, field);
@@ -73,5 +79,6 @@ public class UpdateHelper {
   public class UpdateHelperScope extends UHExt_UpdateHelperScope {}
 
   public class NullRecordIdException extends Exception {}
+  public class IllegalFieldCallException extends Exception {}
   public class InvalidFieldException extends Exception {}
 }
