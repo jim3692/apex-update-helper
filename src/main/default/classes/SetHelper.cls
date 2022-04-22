@@ -1,5 +1,4 @@
 public class SetHelper {
-  @TestVisible
   public CoreHelper.TriggerScope triggerScope { get; private set; }
 
   private final List<SObject> records;
@@ -16,6 +15,10 @@ public class SetHelper {
   }
 
   public CoreHelper.WhenTheExtensions whenThe (CoreHelper.FutureFieldExtensionsExecutor check) {
+    if (check == null) {
+      throw new NullExtensionsException('Executor cannot be null');
+    }
+
     CoreHelper.WhenTheExtensions extensions = new CoreHelper.WhenTheExtensions();
     extensions.externalInit(this, check);
     checks.add(extensions);
@@ -31,4 +34,6 @@ public class SetHelper {
       }
     }
   }
+
+  public class NullExtensionsException extends Exception {}
 }
