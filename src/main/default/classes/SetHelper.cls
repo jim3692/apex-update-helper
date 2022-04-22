@@ -36,4 +36,5 @@ public class SetHelper {
   }
 
   public class NullExtensionsException extends Exception {}
+  public class NullSetException extends Exception {}
 }
