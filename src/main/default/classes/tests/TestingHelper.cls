@@ -40,6 +40,33 @@ public class TestingHelper {
   }
 
   @TestVisible
+  private static UpdateHelper.UpdateHelperScope getUpdateHelperScope (CoreHelper.TriggerScope ts, SObject record) {
+    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    uhs.externalInit(ts, record);
+
+    return uhs;
+  }
+
+  @TestVisible
+  private static UpdateHelper.UpdateHelperScope getUpdateHelperScope () {
+    CoreHelper.TriggerScope ts = getTriggerScope();
+    Account record = (Account)ts.oldMap.values().get(0);
+
+    return getUpdateHelperScope(ts, record);
+  }
+
+  @TestVisible
+  private static CoreHelper.FieldExtensions getFieldExtensions () {
+    UpdateHelper.UpdateHelperScope scope = getUpdateHelperScope();
+    scope.triggerScope.isUpdate = true;
+
+    CoreHelper.FieldExtensions extensions = new CoreHelper.FieldExtensions();
+    extensions.externalInit(scope, Account.Name);
+
+    return extensions;
+  }
+
+  @TestVisible
   private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope (CoreHelper.TriggerScope ts, Object[] values) {
     Account record = (Account)ts.oldMap.values().get(0);
 
