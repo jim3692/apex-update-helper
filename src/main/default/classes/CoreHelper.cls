@@ -22,6 +22,19 @@ public class CoreHelper {
     return record != null;
   }
 
+  @TestVisible
+  private static TriggerScopeProvider triggerScopeProvider = new TriggerScopeProvider();
+
+  public static TriggerScope getTriggerScope () {
+    return triggerScopeProvider.getScope();
+  }
+
+  public class TriggerScopeProvider {
+    public TriggerScope getScope () {
+      return new TriggerScope();
+    }
+  }
+
   public interface IFieldExtensionsAction { Boolean run(FieldExtensionsScope scope); }
 
   private class FieldExtensionsActionWasUpdated extends UHExt_FieldExtensionsActionWasUpdated {}

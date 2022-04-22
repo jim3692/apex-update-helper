@@ -58,4 +58,28 @@ public class TestingHelper {
     return getFieldExtensionsScope(ts, values);
   }
 
+  @TestVisible
+  private class TriggerScopeProviderMock implements System.StubProvider {
+    private final CoreHelper.TriggerScope scope;
+
+    private TriggerScopeProviderMock (CoreHelper.TriggerScope scope) {
+      this.scope = scope;
+    }
+
+    public void stub () {
+      CoreHelper.triggerScopeProvider = (CoreHelper.TriggerScopeProvider)Test.createStub(CoreHelper.TriggerScopeProvider.class, this);
+    }
+
+    public Object handleMethodCall (
+      Object stubbedObject,
+      String stubbedMethodName,
+      Type returnType,
+      List<Type> listOfParamTypes,
+      List<String> listOfParamNames,
+      List<Object> listOfArgs
+    ) {
+      return scope;
+    }
+  }
+
 }

@@ -1,5 +1,4 @@
 public class UpdateHelper {
-  @TestVisible
   public CoreHelper.TriggerScope triggerScope { get; private set; }
   public UpdateHelperScope scope { get; private set; }
 
@@ -20,15 +19,18 @@ public class UpdateHelper {
   }
 
   private UpdateHelper (SObject record) {
-    this.triggerScope = new CoreHelper.TriggerScope();
-    this.scope = new UpdateHelperScope();
-    this.scope.externalInit(this.triggerScope, record);
+    this.isFuture = false;
+    initScopes(record);
   }
 
   private UpdateHelper (SObjectType sobjectType) {
-    this.triggerScope = new CoreHelper.TriggerScope();
-    this.isFuture = true;
     SObject record = sobjectType.newSObject();
+    this.isFuture = true;
+    initScopes(record);
+  }
+
+  private void initScopes (SObject record) {
+    this.triggerScope = CoreHelper.getTriggerScope();
     this.scope = new UpdateHelperScope();
     this.scope.externalInit(this.triggerScope, record);
   }

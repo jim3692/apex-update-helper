@@ -10,6 +10,7 @@ public class SetHelper {
   }
 
   private SetHelper (List<SObject> records) {
+    this.triggerScope = CoreHelper.getTriggerScope();
     this.records = records;
     this.checks = new List<CoreHelper.WhenTheExtensions>();
   }
