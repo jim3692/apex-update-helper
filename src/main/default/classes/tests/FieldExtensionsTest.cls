@@ -79,4 +79,27 @@ class FieldExtensionsTest {
     System.assert(!extensions.is(TestingHelper.ACCOUNT_WRONG_NAME));
   }
 
+  @IsTest
+  static void callFromUpdateHelper () {
+    CoreHelper.TriggerScope tr = TestingHelper.getTriggerScope();
+    tr.isUpdate = true;
+    TestingHelper.stubCoreHelper(tr);
+
+    Id recordId = tr.oldMap.values().get(0).Id;
+    CoreHelper.FieldExtensions extensions = UpdateHelper.of(recordId).field(Account.Name);
+
+    List<String> oldValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
+    List<String> newValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_NEW_NAME);
+
+    System.assert(extensions.wasUpdated());
+    System.assert(extensions.updatedFromAnyOf(oldValues));
+    System.assert(extensions.updatedFrom(TestingHelper.ACCOUNT_OLD_NAME));
+    System.assert(extensions.updatedToAnyOf(newValues));
+    System.assert(extensions.updatedTo(TestingHelper.ACCOUNT_NEW_NAME));
+    System.assert(extensions.wasAnyOf(oldValues));
+    System.assert(extensions.was(TestingHelper.ACCOUNT_OLD_NAME));
+    System.assert(extensions.isAnyOf(newValues));
+    System.assert(extensions.is(TestingHelper.ACCOUNT_NEW_NAME));
+  }
+
 }
