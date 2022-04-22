@@ -3,6 +3,10 @@ public class UpdateHelper {
   public final Boolean isFuture { get; private set; }
 
   public static UpdateHelper of (Id recordId) {
+    if (recordId == null) {
+      throw new CoreHelper.UpdateHelperNullRecordIdException('Record ID is null');
+    }
+
     SObject record = recordId.getSObjectType().newSObject();
     record.Id = recordId;
     return of(record);
