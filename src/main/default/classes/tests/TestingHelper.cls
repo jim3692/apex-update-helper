@@ -59,7 +59,7 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private static void stubTriggerScopeProvider (CoreHelper.TriggerScope scope) {
+  private static void stubCoreHelper (CoreHelper.TriggerScope scope) {
     CoreHelperMock mock = new CoreHelperMock(scope);
     CoreHelper.mockableInstance = (CoreHelper)Test.createStub(CoreHelper.class, mock);
   }
