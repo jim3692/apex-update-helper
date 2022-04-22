@@ -1,7 +1,5 @@
 public class UpdateHelper {
-  public CoreHelper.TriggerScope triggerScope { get; private set; }
   public UpdateHelperScope scope { get; private set; }
-
   public final Boolean isFuture { get; private set; }
 
   public static UpdateHelper of (Id recordId) {
@@ -30,9 +28,9 @@ public class UpdateHelper {
   }
 
   private void initScopes (SObject record) {
-    this.triggerScope = CoreHelper.getTriggerScope();
+    CoreHelper.TriggerScope triggerScope = CoreHelper.getTriggerScope();
     this.scope = new UpdateHelperScope();
-    this.scope.externalInit(this.triggerScope, record);
+    this.scope.externalInit(triggerScope, record);
   }
 
   public CoreHelper.FieldExtensions field (SObjectField field) {
