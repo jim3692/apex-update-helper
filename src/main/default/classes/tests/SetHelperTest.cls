@@ -24,7 +24,7 @@ class SetHelperTest {
 
     SetHelper.NullExtensionsException nullExtensionsException;
     try {
-      CoreHelper.WhenTheExtensions extensions = SetHelper.of(ts.oldMap.values()).whenThe(null);
+      SetHelper.WhenTheExtensions extensions = SetHelper.of(ts.oldMap.values()).whenThe(null);
     } catch (SetHelper.NullExtensionsException ex) {
       nullExtensionsException = ex;
     }

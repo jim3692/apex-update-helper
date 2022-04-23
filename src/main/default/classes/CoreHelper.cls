@@ -55,6 +55,4 @@ public class CoreHelper {
 
   public class TriggerScope extends UHExt_TriggerScope {}
   public class FieldExtensionsScope extends UHExt_FieldExtensionsScope {}
-
-  public class WhenTheExtensions extends CHExt_WhenTheExtensions {}
 }
