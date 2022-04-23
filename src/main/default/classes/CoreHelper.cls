@@ -53,6 +53,6 @@ public class CoreHelper {
   private class FieldExtensionsActionIs extends UHExt_FieldExtensionsActionIs {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_IS_ANY_OF = new FieldExtensionsActionIs();
 
-  public class TriggerScope extends UHExt_TriggerScope {}
-  public class FieldExtensionsScope extends UHExt_FieldExtensionsScope {}
+  public class TriggerScope extends CHExt_TriggerScope {}
+  public class FieldExtensionsScope extends CHExt_FieldExtensionsScope {}
 }

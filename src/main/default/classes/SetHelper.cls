@@ -35,7 +35,7 @@ public class SetHelper {
     }
   }
 
-  public class WhenTheExtensions extends CHExt_WhenTheExtensions {}
+  public class WhenTheExtensions extends SHExt_WhenTheExtensions {}
 
   public class NullExtensionsException extends Exception {}
   public class NullSetException extends Exception {}

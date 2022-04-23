@@ -1,4 +1,4 @@
-public abstract class UHExt_FieldExtensionsScope {
+public abstract class CHExt_FieldExtensionsScope {
   /* bundler-make-final */ public UpdateHelper.UpdateHelperScope helperScope { get; private set; }
   /* bundler-make-final */ public SObjectField field { get; private set; }
 

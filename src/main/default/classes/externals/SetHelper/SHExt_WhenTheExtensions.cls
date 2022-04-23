@@ -1,4 +1,4 @@
-public abstract class CHExt_WhenTheExtensions {
+public abstract class SHExt_WhenTheExtensions {
   /* bundler-make-final */ private SetHelper helper;
   /* bundler-make-final */ private UpdateHelper.FutureFieldExtensionsExecutor check;
   private Set<Id> ids;
