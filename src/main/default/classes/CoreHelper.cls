@@ -42,15 +42,15 @@ public class CoreHelper {
 
   public interface IFieldExtensionsAction { Boolean run(FieldExtensionsScope scope); }
 
-  private class FieldExtensionsActionWasUpdated extends UHExt_FieldExtensionsActionWasUpdated {}
+  private class FieldExtensionsActionWasUpdated extends CHExt_FieldExtensionsActionWasUpdated {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_WAS_UPDATED = new FieldExtensionsActionWasUpdated();
-  private class FieldExtensionsActionUpdatedFrom extends UHExt_FieldExtensionsActionUpdatedFrom {}
+  private class FieldExtensionsActionUpdatedFrom extends CHExt_FieldExtensionsActionUpdatedFrom {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_UPDATED_FROM_ANY_OF = new FieldExtensionsActionUpdatedFrom();
-  private class FieldExtensionsActionUpdatedTo extends UHExt_FieldExtensionsActionUpdatedTo {}
+  private class FieldExtensionsActionUpdatedTo extends CHExt_FieldExtensionsActionUpdatedTo {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_UPDATED_TO_ANY_OF = new FieldExtensionsActionUpdatedTo();
-  private class FieldExtensionsActionWas extends UHExt_FieldExtensionsActionWas {}
+  private class FieldExtensionsActionWas extends CHExt_FieldExtensionsActionWas {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_WAS_ANY_OF = new FieldExtensionsActionWas();
-  private class FieldExtensionsActionIs extends UHExt_FieldExtensionsActionIs {}
+  private class FieldExtensionsActionIs extends CHExt_FieldExtensionsActionIs {}
   public static final IFieldExtensionsAction FIELD_EXTENSIONS_ACTION_IS_ANY_OF = new FieldExtensionsActionIs();
 
   public class TriggerScope extends CHExt_TriggerScope {}
