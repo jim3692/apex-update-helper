@@ -22,6 +22,7 @@ sfdx force:source:deploy -c -w 1000 \
     --ignorewarnings \
     --manifest .dist/package.xml \
     --testlevel RunLocalTests \
+    --verbose \
     -u $1
 
 __deleteOldFiles
