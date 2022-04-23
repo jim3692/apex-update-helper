@@ -60,7 +60,7 @@ class ScopeTest {
     ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
     ts.newMap = new Map<Id,Account>{fakeId => newRecord};
 
-    { // Prevent reuse of variables
+    {
       UpdateHelper.Scope uhsFromOld = new UpdateHelper.Scope();
       uhsFromOld.externalInit(ts, oldRecord);
 
@@ -71,7 +71,7 @@ class ScopeTest {
       System.assertEquals(fakeId, uhsFromOld.recordId);
     }
 
-    { // Prevent reuse of variables
+    {
       UpdateHelper.Scope uhsFromNew = new UpdateHelper.Scope();
       uhsFromNew.externalInit(ts, newRecord);
 
@@ -115,7 +115,7 @@ class ScopeTest {
     UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
-    { // Prevent reuse of variables
+    {
       CoreHelper.FieldExtensionsScope fesValuesFromConstructor = new CoreHelper.FieldExtensionsScope();
       fesValuesFromConstructor.externalInit(uhs, Account.Name, values);
 
@@ -131,7 +131,7 @@ class ScopeTest {
       System.assertEquals(values, fesValuesFromConstructor.values);
     }
 
-    { // Prevent reuse of variables
+    {
       CoreHelper.FieldExtensionsScope fesValuesFromCopy = new CoreHelper.FieldExtensionsScope();
       fesValuesFromCopy.externalInit(uhs, Account.Name);
       fesValuesFromCopy = fesValuesFromCopy.copyWithValues(values);
@@ -182,7 +182,7 @@ class ScopeTest {
     ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
     ts.newMap = new Map<Id,Account>{fakeId => newRecord};
 
-    { // Prevent reuse of variables
+    {
       UpdateHelper.Scope uhsOld = new UpdateHelper.Scope();
       uhsOld.externalInit(ts, oldRecord);
 
@@ -203,7 +203,7 @@ class ScopeTest {
       System.assertEquals(null, fesOld.values);
     }
 
-    { // Prevent reuse of variables
+    {
       UpdateHelper.Scope uhsNew = new UpdateHelper.Scope();
       uhsNew.externalInit(ts, newRecord);
 

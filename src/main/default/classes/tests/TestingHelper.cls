@@ -143,4 +143,12 @@ public class TestingHelper {
     }
   }
 
+  /* bundler-inject ActionsTest */
+  /* bundler-inject CoreHelperTest */
+  /* bundler-inject FieldExtensionsTest */
+  /* bundler-inject FutureFieldExtensionsTest */
+  /* bundler-inject ScopeTest */
+  /* bundler-inject SetHelperTest */
+  /* bundler-inject UpdateHelperTest */
+
 }
