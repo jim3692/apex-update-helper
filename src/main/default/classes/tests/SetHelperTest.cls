@@ -45,6 +45,7 @@ class SetHelperTest {
       .whenThe(name.is(TestingHelper.ACCOUNT_NEW_NAME + 1)).addIdTo(name1Id)
       .whenThe(name.was(TestingHelper.ACCOUNT_OLD_NAME + 2)).addIdTo(name2Id)
       .whenThe(name.was(TestingHelper.ACCOUNT_WRONG_NAME)).addIdTo(empty)
+      .whenThe(name.was(TestingHelper.ACCOUNT_WRONG_NAME + 0)).addIdTo(empty)
       .run();
 
     System.assertEquals(10, allIds.size());
