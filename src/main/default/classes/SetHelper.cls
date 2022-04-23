@@ -27,7 +27,7 @@ public class SetHelper {
 
   public void run () {
     for (SObject record : records) {
-      UpdateHelper.UpdateHelperScope updateHelperScope = new UpdateHelper.UpdateHelperScope();
+      UpdateHelper.Scope updateHelperScope = new UpdateHelper.Scope();
       updateHelperScope.externalInit(triggerScope, record);
       for (WhenTheExtensions check : checks) {
         check.run(updateHelperScope);

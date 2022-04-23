@@ -2,7 +2,7 @@ public abstract class UHExt_FutureFieldExtensions {
   /* bundler-make-final */ private CoreHelper.FieldExtensionsScope scope;
   /* bundler-make-final */ private CoreHelper.IFieldExtensionsAction action;
 
-  public void externalInit (UpdateHelper.UpdateHelperScope helperScope, SObjectField field) {
+  public void externalInit (UpdateHelper.Scope helperScope, SObjectField field) {
     this.scope = new CoreHelper.FieldExtensionsScope();
     this.scope.externalInit(helperScope, field);
   }

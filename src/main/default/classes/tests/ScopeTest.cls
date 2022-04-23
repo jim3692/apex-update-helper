@@ -25,7 +25,7 @@ class ScopeTest {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Account record = new Account();
 
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
     System.assertNotEquals(null, uhs.triggerScope);
@@ -41,7 +41,7 @@ class ScopeTest {
     Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
     Account record = new Account(Id = fakeId);
 
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
     System.assertNotEquals(null, uhs.triggerScope);
@@ -61,7 +61,7 @@ class ScopeTest {
     ts.newMap = new Map<Id,Account>{fakeId => newRecord};
 
     { // Prevent reuse of variables
-      UpdateHelper.UpdateHelperScope uhsFromOld = new UpdateHelper.UpdateHelperScope();
+      UpdateHelper.Scope uhsFromOld = new UpdateHelper.Scope();
       uhsFromOld.externalInit(ts, oldRecord);
 
       System.assertNotEquals(null, uhsFromOld.triggerScope);
@@ -72,7 +72,7 @@ class ScopeTest {
     }
 
     { // Prevent reuse of variables
-      UpdateHelper.UpdateHelperScope uhsFromNew = new UpdateHelper.UpdateHelperScope();
+      UpdateHelper.Scope uhsFromNew = new UpdateHelper.Scope();
       uhsFromNew.externalInit(ts, newRecord);
 
       System.assertNotEquals(null, uhsFromNew.triggerScope);
@@ -88,7 +88,7 @@ class ScopeTest {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Account record = new Account();
 
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
     CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
@@ -112,7 +112,7 @@ class ScopeTest {
     Account record = new Account();
     List<String> values = new List<String>{ 'a', 'b', 'c' };
 
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
     { // Prevent reuse of variables
@@ -155,7 +155,7 @@ class ScopeTest {
     Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
     Account record = new Account(Id = fakeId);
 
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
     CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();
@@ -183,7 +183,7 @@ class ScopeTest {
     ts.newMap = new Map<Id,Account>{fakeId => newRecord};
 
     { // Prevent reuse of variables
-      UpdateHelper.UpdateHelperScope uhsOld = new UpdateHelper.UpdateHelperScope();
+      UpdateHelper.Scope uhsOld = new UpdateHelper.Scope();
       uhsOld.externalInit(ts, oldRecord);
 
       CoreHelper.FieldExtensionsScope fesOld = new CoreHelper.FieldExtensionsScope();
@@ -204,7 +204,7 @@ class ScopeTest {
     }
 
     { // Prevent reuse of variables
-      UpdateHelper.UpdateHelperScope uhsNew = new UpdateHelper.UpdateHelperScope();
+      UpdateHelper.Scope uhsNew = new UpdateHelper.Scope();
       uhsNew.externalInit(ts, newRecord);
 
       CoreHelper.FieldExtensionsScope fesNew = new CoreHelper.FieldExtensionsScope();

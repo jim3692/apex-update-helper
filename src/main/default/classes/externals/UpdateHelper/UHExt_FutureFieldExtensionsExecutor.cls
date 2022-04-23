@@ -9,7 +9,7 @@ public abstract class UHExt_FutureFieldExtensionsExecutor {
     this.values = values;
   }
 
-  public Boolean run (UpdateHelper.UpdateHelperScope helperScope) {
+  public Boolean run (UpdateHelper.Scope helperScope) {
     System.assert(action != null);
     CoreHelper.FieldExtensionsScope newScope = new CoreHelper.FieldExtensionsScope();
     newScope.externalInit(helperScope, scope.field, values);

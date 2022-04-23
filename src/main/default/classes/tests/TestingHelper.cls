@@ -58,15 +58,15 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private static UpdateHelper.UpdateHelperScope getUpdateHelperScope (CoreHelper.TriggerScope ts, SObject record) {
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+  private static UpdateHelper.Scope getUpdateHelperScope (CoreHelper.TriggerScope ts, SObject record) {
+    UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
     return uhs;
   }
 
   @TestVisible
-  private static UpdateHelper.UpdateHelperScope getUpdateHelperScope () {
+  private static UpdateHelper.Scope getUpdateHelperScope () {
     CoreHelper.TriggerScope ts = getTriggerScope();
     Account record = (Account)ts.oldMap.values().get(0);
 
@@ -75,7 +75,7 @@ public class TestingHelper {
 
   @TestVisible
   private static UpdateHelper.FieldExtensions getFieldExtensions () {
-    UpdateHelper.UpdateHelperScope scope = getUpdateHelperScope();
+    UpdateHelper.Scope scope = getUpdateHelperScope();
     scope.triggerScope.isUpdate = true;
 
     UpdateHelper.FieldExtensions extensions = new UpdateHelper.FieldExtensions();
@@ -86,7 +86,7 @@ public class TestingHelper {
 
   @TestVisible
   private static UpdateHelper.FutureFieldExtensions getFutureFieldExtensions () {
-    UpdateHelper.UpdateHelperScope scope = getUpdateHelperScope();
+    UpdateHelper.Scope scope = getUpdateHelperScope();
     scope.triggerScope.isUpdate = true;
 
     UpdateHelper.FutureFieldExtensions extensions = new UpdateHelper.FutureFieldExtensions();
@@ -99,7 +99,7 @@ public class TestingHelper {
   private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope (CoreHelper.TriggerScope ts, Object[] values) {
     Account record = (Account)ts.oldMap.values().get(0);
 
-    UpdateHelper.UpdateHelperScope uhs = new UpdateHelper.UpdateHelperScope();
+    UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
     CoreHelper.FieldExtensionsScope fes = new CoreHelper.FieldExtensionsScope();

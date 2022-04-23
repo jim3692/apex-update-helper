@@ -1,7 +1,7 @@
 public abstract class UHExt_FieldExtensions {
   /* bundler-make-final */ private CoreHelper.FieldExtensionsScope scope;
 
-  public void externalInit (UpdateHelper.UpdateHelperScope helperScope, SObjectField field) {
+  public void externalInit (UpdateHelper.Scope helperScope, SObjectField field) {
     this.scope = new CoreHelper.FieldExtensionsScope();
     this.scope.externalInit(helperScope, field);
   }

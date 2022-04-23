@@ -1,4 +1,4 @@
-public abstract class UHExt_UpdateHelperScope {
+public abstract class UHExt_Scope {
   /* bundler-make-final */ public CoreHelper.TriggerScope triggerScope { get; private set; }
   /* bundler-make-final */ public SObject oldRecord { get; private set; }
   /* bundler-make-final */ public SObject newRecord { get; private set; }

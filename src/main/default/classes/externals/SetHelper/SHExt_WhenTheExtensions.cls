@@ -17,9 +17,9 @@ public abstract class SHExt_WhenTheExtensions {
     return helper;
   }
 
-  public void run (UpdateHelper.UpdateHelperScope updateHelperScope) {
-    if (check.run(updateHelperScope)) {
-      ids.add(updateHelperScope.recordId);
+  public void run (UpdateHelper.Scope Scope) {
+    if (check.run(Scope)) {
+      ids.add(Scope.recordId);
     }
   }
 }
