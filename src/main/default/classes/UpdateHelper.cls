@@ -37,24 +37,24 @@ public class UpdateHelper {
     this.scope.externalInit(triggerScope, record);
   }
 
-  public UpdateHelper.FieldExtensions field (SObjectField field) {
+  public FieldExtensions field (SObjectField field) {
     if (isFuture) {
       throw new IllegalFieldCallException('Cannot call "field" on future-enabled UpdateHelper instances');
     }
 
     validateField(field);
-    UpdateHelper.FieldExtensions extensions = new UpdateHelper.FieldExtensions();
+    FieldExtensions extensions = new FieldExtensions();
     extensions.externalInit(scope, field);
     return extensions;
   }
 
-  public UpdateHelper.FutureFieldExtensions futureField (SObjectField field) {
+  public FutureFieldExtensions futureField (SObjectField field) {
     if (!isFuture) {
       throw new IllegalFieldCallException('Cannot call "futureField" on future-disabled UpdateHelper instances');
     }
 
     validateField(field);
-    UpdateHelper.FutureFieldExtensions extensions = new UpdateHelper.FutureFieldExtensions();
+    FutureFieldExtensions extensions = new FutureFieldExtensions();
     extensions.externalInit(scope, field);
     return extensions;
   }

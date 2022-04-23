@@ -2,7 +2,7 @@ public class SetHelper {
   public CoreHelper.TriggerScope triggerScope { get; private set; }
 
   private final List<SObject> records;
-  private final List<SetHelper.WhenTheExtensions> checks;
+  private final List<WhenTheExtensions> checks;
 
   public static SetHelper of (List<SObject> records) {
     return new SetHelper(records);
@@ -11,15 +11,15 @@ public class SetHelper {
   private SetHelper (List<SObject> records) {
     this.triggerScope = CoreHelper.getTriggerScope();
     this.records = records;
-    this.checks = new List<SetHelper.WhenTheExtensions>();
+    this.checks = new List<WhenTheExtensions>();
   }
 
-  public SetHelper.WhenTheExtensions whenThe (UpdateHelper.FutureFieldExtensionsExecutor check) {
+  public WhenTheExtensions whenThe (UpdateHelper.FutureFieldExtensionsExecutor check) {
     if (check == null) {
       throw new NullExtensionsException('Executor cannot be null');
     }
 
-    SetHelper.WhenTheExtensions extensions = new SetHelper.WhenTheExtensions();
+    WhenTheExtensions extensions = new WhenTheExtensions();
     extensions.externalInit(this, check);
     checks.add(extensions);
     return extensions;
@@ -29,7 +29,7 @@ public class SetHelper {
     for (SObject record : records) {
       UpdateHelper.UpdateHelperScope updateHelperScope = new UpdateHelper.UpdateHelperScope();
       updateHelperScope.externalInit(triggerScope, record);
-      for (SetHelper.WhenTheExtensions check : checks) {
+      for (WhenTheExtensions check : checks) {
         check.run(updateHelperScope);
       }
     }
