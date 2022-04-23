@@ -14,7 +14,7 @@ public class SetHelper {
     this.checks = new List<CoreHelper.WhenTheExtensions>();
   }
 
-  public CoreHelper.WhenTheExtensions whenThe (CoreHelper.FutureFieldExtensionsExecutor check) {
+  public CoreHelper.WhenTheExtensions whenThe (UpdateHelper.FutureFieldExtensionsExecutor check) {
     if (check == null) {
       throw new NullExtensionsException('Executor cannot be null');
     }

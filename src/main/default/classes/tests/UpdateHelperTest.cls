@@ -58,12 +58,12 @@ class UpdateHelperTest {
     Account oldRecord = (Account)ts.oldMap.values().get(0);
     Account newRecord = (Account)ts.newMap.values().get(0);
 
-    CoreHelper.FieldExtensions extensionsOfOldRecord = UpdateHelper.of(oldRecord).field(Account.Name);
-    CoreHelper.FieldExtensions extensionsOfNewRecord = UpdateHelper.of(newRecord).field(Account.Name);
+    UpdateHelper.FieldExtensions extensionsOfOldRecord = UpdateHelper.of(oldRecord).field(Account.Name);
+    UpdateHelper.FieldExtensions extensionsOfNewRecord = UpdateHelper.of(newRecord).field(Account.Name);
 
     UpdateHelper.InvalidFieldException invalidFieldException;
     try {
-      CoreHelper.FieldExtensions invalidExtensions = UpdateHelper.of(oldRecord).field(Opportunity.Name);
+      UpdateHelper.FieldExtensions invalidExtensions = UpdateHelper.of(oldRecord).field(Opportunity.Name);
     } catch (UpdateHelper.InvalidFieldException ex) {
       invalidFieldException = ex;
     }
@@ -71,7 +71,7 @@ class UpdateHelperTest {
 
     UpdateHelper.IllegalFieldCallException illegalFieldCallException;
     try {
-      CoreHelper.FieldExtensions invalidExtensions = UpdateHelper.futureOf(Account.SObjectType).field(Account.Name);
+      UpdateHelper.FieldExtensions invalidExtensions = UpdateHelper.futureOf(Account.SObjectType).field(Account.Name);
     } catch (UpdateHelper.IllegalFieldCallException ex) {
       illegalFieldCallException = ex;
     }
@@ -80,11 +80,11 @@ class UpdateHelperTest {
 
   @IsTest
   static void futureField () {
-    CoreHelper.FutureFieldExtensions extensions = UpdateHelper.futureOf(Account.SObjectType).futureField(Account.Name);
+    UpdateHelper.FutureFieldExtensions extensions = UpdateHelper.futureOf(Account.SObjectType).futureField(Account.Name);
 
     UpdateHelper.InvalidFieldException invalidFieldException;
     try {
-      CoreHelper.FutureFieldExtensions invalidExtensions = UpdateHelper.futureOf(Account.SObjectType).futureField(Opportunity.Name);
+      UpdateHelper.FutureFieldExtensions invalidExtensions = UpdateHelper.futureOf(Account.SObjectType).futureField(Opportunity.Name);
     } catch (UpdateHelper.InvalidFieldException ex) {
       invalidFieldException = ex;
     }
@@ -92,7 +92,7 @@ class UpdateHelperTest {
 
     UpdateHelper.IllegalFieldCallException illegalFieldCallException;
     try {
-      CoreHelper.FutureFieldExtensions invalidExtensions = UpdateHelper.of(new Account()).futureField(Account.Name);
+      UpdateHelper.FutureFieldExtensions invalidExtensions = UpdateHelper.of(new Account()).futureField(Account.Name);
     } catch (UpdateHelper.IllegalFieldCallException ex) {
       illegalFieldCallException = ex;
     }

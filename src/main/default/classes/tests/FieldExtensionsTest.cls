@@ -3,13 +3,13 @@ class FieldExtensionsTest {
 
   @IsTest
   static void wasUpdated () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
     System.assert(extensions.wasUpdated());
   }
 
   @IsTest
   static void updatedFromAnyOf () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
 
     List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
     List<String> wrongValues = TestingHelper.getAccountWrongNames();
@@ -20,14 +20,14 @@ class FieldExtensionsTest {
 
   @IsTest
   static void updatedFrom () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
     System.assert(extensions.updatedFrom(TestingHelper.ACCOUNT_OLD_NAME));
     System.assert(!extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME));
   }
 
   @IsTest
   static void updatedToAnyOf () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
 
     List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_NEW_NAME);
     List<String> wrongValues = TestingHelper.getAccountWrongNames();
@@ -38,14 +38,14 @@ class FieldExtensionsTest {
 
   @IsTest
   static void updatedTo () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
     System.assert(extensions.updatedTo(TestingHelper.ACCOUNT_NEW_NAME));
     System.assert(!extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME));
   }
 
   @IsTest
   static void wasAnyOf () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
 
     List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
     List<String> wrongValues = TestingHelper.getAccountWrongNames();
@@ -56,14 +56,14 @@ class FieldExtensionsTest {
 
   @IsTest
   static void was () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
     System.assert(extensions.was(TestingHelper.ACCOUNT_OLD_NAME));
     System.assert(!extensions.was(TestingHelper.ACCOUNT_WRONG_NAME));
   }
 
   @IsTest
   static void isAnyOf () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
 
     List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_NEW_NAME);
     List<String> wrongValues = TestingHelper.getAccountWrongNames();
@@ -74,7 +74,7 @@ class FieldExtensionsTest {
 
   @IsTest
   static void is () {
-    CoreHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
+    UpdateHelper.FieldExtensions extensions = TestingHelper.getFieldExtensions();
     System.assert(extensions.is(TestingHelper.ACCOUNT_NEW_NAME));
     System.assert(!extensions.is(TestingHelper.ACCOUNT_WRONG_NAME));
   }
@@ -86,7 +86,7 @@ class FieldExtensionsTest {
     TestingHelper.stubCoreHelper(ts);
 
     Id recordId = ts.oldMap.values().get(0).Id;
-    CoreHelper.FieldExtensions extensions = UpdateHelper.of(recordId).field(Account.Name);
+    UpdateHelper.FieldExtensions extensions = UpdateHelper.of(recordId).field(Account.Name);
 
     List<String> oldValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
     List<String> newValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_NEW_NAME);

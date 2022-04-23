@@ -14,7 +14,7 @@ class SetHelperTest {
     CoreHelper.TriggerScope ts = TestingHelper.getTriggerScopeWithMultipleRecords();
     TestingHelper.stubCoreHelper(ts);
 
-    CoreHelper.FutureFieldExtensions name = UpdateHelper.futureOf(Account.SObjectType).futureField(Account.Name);
+    UpdateHelper.FutureFieldExtensions name = UpdateHelper.futureOf(Account.SObjectType).futureField(Account.Name);
 
     Set<Id> allIds = new Set<Id>();
     Set<Id> name0Id = new Set<Id>();

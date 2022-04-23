@@ -74,22 +74,22 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private static CoreHelper.FieldExtensions getFieldExtensions () {
+  private static UpdateHelper.FieldExtensions getFieldExtensions () {
     UpdateHelper.UpdateHelperScope scope = getUpdateHelperScope();
     scope.triggerScope.isUpdate = true;
 
-    CoreHelper.FieldExtensions extensions = new CoreHelper.FieldExtensions();
+    UpdateHelper.FieldExtensions extensions = new UpdateHelper.FieldExtensions();
     extensions.externalInit(scope, Account.Name);
 
     return extensions;
   }
 
   @TestVisible
-  private static CoreHelper.FutureFieldExtensions getFutureFieldExtensions () {
+  private static UpdateHelper.FutureFieldExtensions getFutureFieldExtensions () {
     UpdateHelper.UpdateHelperScope scope = getUpdateHelperScope();
     scope.triggerScope.isUpdate = true;
 
-    CoreHelper.FutureFieldExtensions extensions = new CoreHelper.FutureFieldExtensions();
+    UpdateHelper.FutureFieldExtensions extensions = new UpdateHelper.FutureFieldExtensions();
     extensions.externalInit(scope, Account.Name);
 
     return extensions;

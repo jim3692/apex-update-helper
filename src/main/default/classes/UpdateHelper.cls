@@ -37,24 +37,24 @@ public class UpdateHelper {
     this.scope.externalInit(triggerScope, record);
   }
 
-  public CoreHelper.FieldExtensions field (SObjectField field) {
+  public UpdateHelper.FieldExtensions field (SObjectField field) {
     if (isFuture) {
       throw new IllegalFieldCallException('Cannot call "field" on future-enabled UpdateHelper instances');
     }
 
     validateField(field);
-    CoreHelper.FieldExtensions extensions = new CoreHelper.FieldExtensions();
+    UpdateHelper.FieldExtensions extensions = new UpdateHelper.FieldExtensions();
     extensions.externalInit(scope, field);
     return extensions;
   }
 
-  public CoreHelper.FutureFieldExtensions futureField (SObjectField field) {
+  public UpdateHelper.FutureFieldExtensions futureField (SObjectField field) {
     if (!isFuture) {
       throw new IllegalFieldCallException('Cannot call "futureField" on future-disabled UpdateHelper instances');
     }
 
     validateField(field);
-    CoreHelper.FutureFieldExtensions extensions = new CoreHelper.FutureFieldExtensions();
+    UpdateHelper.FutureFieldExtensions extensions = new UpdateHelper.FutureFieldExtensions();
     extensions.externalInit(scope, field);
     return extensions;
   }
@@ -77,6 +77,9 @@ public class UpdateHelper {
   }
 
   public class UpdateHelperScope extends UHExt_UpdateHelperScope {}
+  public class FieldExtensions extends UHExt_FieldExtensions {}
+  public class FutureFieldExtensions extends UHExt_FutureFieldExtensions {}
+  public class FutureFieldExtensionsExecutor extends UHExt_FutureFieldExtensionsExecutor {}
 
   public class NullRecordIdException extends Exception {}
   public class IllegalFieldCallException extends Exception {}
