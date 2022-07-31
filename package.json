@@ -1,0 +1,14 @@
+{
+  "name": "apex-update-helper",
+  "scripts": {
+    "bundle": "bash bundle.sh",
+    "prettier": "prettier",
+    "prettier:format": "prettier --write 'src/**/*.{trigger,cls}'",
+    "prettier:format:build": "prettier --loglevel silent --write '.build/**/*.{trigger,cls}'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "prettier-plugin-apex": "^1.10.0"
+  }
+}
