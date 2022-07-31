@@ -1,8 +1,7 @@
 @IsTest
 class FutureFieldExtensionsTest {
-
   @IsTest
-  static void wasUpdated () {
+  static void wasUpdated() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
 
@@ -14,11 +13,13 @@ class FutureFieldExtensionsTest {
   }
 
   @IsTest
-  static void updatedFromAnyOf () {
+  static void updatedFromAnyOf() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
 
-    List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
+    List<String> correctValues = TestingHelper.getCorrectValues(
+      TestingHelper.ACCOUNT_OLD_NAME
+    );
     List<String> wrongValues = TestingHelper.getAccountWrongNames();
 
     System.assert(!extensions.updatedFromAnyOf(correctValues).run(scope));
@@ -31,25 +32,35 @@ class FutureFieldExtensionsTest {
   }
 
   @IsTest
-  static void updatedFrom () {
+  static void updatedFrom() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
 
-    System.assert(!extensions.updatedFrom(TestingHelper.ACCOUNT_OLD_NAME).run(scope));
-    System.assert(!extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME).run(scope));
+    System.assert(
+      !extensions.updatedFrom(TestingHelper.ACCOUNT_OLD_NAME).run(scope)
+    );
+    System.assert(
+      !extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME).run(scope)
+    );
 
     scope.triggerScope.isUpdate = true;
 
-    System.assert(extensions.updatedFrom(TestingHelper.ACCOUNT_OLD_NAME).run(scope));
-    System.assert(!extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME).run(scope));
+    System.assert(
+      extensions.updatedFrom(TestingHelper.ACCOUNT_OLD_NAME).run(scope)
+    );
+    System.assert(
+      !extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME).run(scope)
+    );
   }
 
   @IsTest
-  static void updatedToAnyOf () {
+  static void updatedToAnyOf() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
 
-    List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_NEW_NAME);
+    List<String> correctValues = TestingHelper.getCorrectValues(
+      TestingHelper.ACCOUNT_NEW_NAME
+    );
     List<String> wrongValues = TestingHelper.getAccountWrongNames();
 
     System.assert(!extensions.updatedToAnyOf(correctValues).run(scope));
@@ -62,25 +73,35 @@ class FutureFieldExtensionsTest {
   }
 
   @IsTest
-  static void updatedTo () {
+  static void updatedTo() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
 
-    System.assert(!extensions.updatedTo(TestingHelper.ACCOUNT_NEW_NAME).run(scope));
-    System.assert(!extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME).run(scope));
+    System.assert(
+      !extensions.updatedTo(TestingHelper.ACCOUNT_NEW_NAME).run(scope)
+    );
+    System.assert(
+      !extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME).run(scope)
+    );
 
     scope.triggerScope.isUpdate = true;
 
-    System.assert(extensions.updatedTo(TestingHelper.ACCOUNT_NEW_NAME).run(scope));
-    System.assert(!extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME).run(scope));
+    System.assert(
+      extensions.updatedTo(TestingHelper.ACCOUNT_NEW_NAME).run(scope)
+    );
+    System.assert(
+      !extensions.updatedFrom(TestingHelper.ACCOUNT_WRONG_NAME).run(scope)
+    );
   }
 
   @IsTest
-  static void wasAnyOf () {
+  static void wasAnyOf() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
 
-    List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_OLD_NAME);
+    List<String> correctValues = TestingHelper.getCorrectValues(
+      TestingHelper.ACCOUNT_OLD_NAME
+    );
     List<String> wrongValues = TestingHelper.getAccountWrongNames();
 
     System.assert(extensions.wasAnyOf(correctValues).run(scope));
@@ -88,7 +109,7 @@ class FutureFieldExtensionsTest {
   }
 
   @IsTest
-  static void was () {
+  static void was() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
     System.assert(extensions.was(TestingHelper.ACCOUNT_OLD_NAME).run(scope));
@@ -96,11 +117,13 @@ class FutureFieldExtensionsTest {
   }
 
   @IsTest
-  static void isAnyOf () {
+  static void isAnyOf() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
 
-    List<String> correctValues = TestingHelper.getCorrectValues(TestingHelper.ACCOUNT_NEW_NAME);
+    List<String> correctValues = TestingHelper.getCorrectValues(
+      TestingHelper.ACCOUNT_NEW_NAME
+    );
     List<String> wrongValues = TestingHelper.getAccountWrongNames();
 
     System.assert(extensions.isAnyOf(correctValues).run(scope));
@@ -108,11 +131,10 @@ class FutureFieldExtensionsTest {
   }
 
   @IsTest
-  static void is () {
+  static void is() {
     UpdateHelper.FutureFieldExtensions extensions = TestingHelper.getFutureFieldExtensions();
     UpdateHelper.Scope scope = TestingHelper.getUpdateHelperScope();
     System.assert(extensions.is(TestingHelper.ACCOUNT_NEW_NAME).run(scope));
     System.assert(!extensions.is(TestingHelper.ACCOUNT_WRONG_NAME).run(scope));
   }
-
 }

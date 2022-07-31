@@ -1,6 +1,5 @@
 @IsTest
 public class TestingHelper {
-
   public static final String ACCOUNT_OLD_NAME = 'Name';
   public static final String ACCOUNT_NEW_NAME = 'NAME';
   public static final String ACCOUNT_WRONG_NAME = 'name';
@@ -12,28 +11,29 @@ public class TestingHelper {
   private static String getFakeId(SObjectType sot) {
     String result = String.valueOf(fakeIdCounter++);
     return sot.getDescribe().getKeyPrefix() +
-      '0'.repeat(12-result.length()) + result;
+      '0'.repeat(12 - result.length()) +
+      result;
   }
 
   @TestVisible
-  private static CoreHelper.TriggerScope getTriggerScope () {
+  private static CoreHelper.TriggerScope getTriggerScope() {
     Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
     Account oldRecord = new Account(Id = fakeId, Name = ACCOUNT_OLD_NAME);
     Account newRecord = new Account(Id = fakeId, Name = ACCOUNT_NEW_NAME);
 
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-    ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-    ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    ts.oldMap = new Map<Id, Account>{ fakeId => oldRecord };
+    ts.newMap = new Map<Id, Account>{ fakeId => newRecord };
     ts.isUpdate = false;
 
     return ts;
   }
 
   @TestVisible
-  private static CoreHelper.TriggerScope getTriggerScopeWithMultipleRecords () {
+  private static CoreHelper.TriggerScope getTriggerScopeWithMultipleRecords() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
-    ts.oldMap = new Map<Id,Account>();
-    ts.newMap = new Map<Id,Account>();
+    ts.oldMap = new Map<Id, Account>();
+    ts.newMap = new Map<Id, Account>();
     ts.isUpdate = true;
 
     for (Integer i = 0; i < 10; i++) {
@@ -48,17 +48,20 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private static String[] getAccountWrongNames () {
-    return new String[] { 'a', 'b', TestingHelper.ACCOUNT_WRONG_NAME };
+  private static String[] getAccountWrongNames() {
+    return new List<String>{ 'a', 'b', TestingHelper.ACCOUNT_WRONG_NAME };
   }
 
   @TestVisible
-  private static String[] getCorrectValues (String correct) {
-    return new String[] { 'a', 'b', correct };
+  private static String[] getCorrectValues(String correct) {
+    return new List<String>{ 'a', 'b', correct };
   }
 
   @TestVisible
-  private static UpdateHelper.Scope getUpdateHelperScope (CoreHelper.TriggerScope ts, SObject record) {
+  private static UpdateHelper.Scope getUpdateHelperScope(
+    CoreHelper.TriggerScope ts,
+    SObject record
+  ) {
     UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
 
@@ -66,15 +69,15 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private static UpdateHelper.Scope getUpdateHelperScope () {
+  private static UpdateHelper.Scope getUpdateHelperScope() {
     CoreHelper.TriggerScope ts = getTriggerScope();
-    Account record = (Account)ts.oldMap.values().get(0);
+    Account record = (Account) ts.oldMap.values().get(0);
 
     return getUpdateHelperScope(ts, record);
   }
 
   @TestVisible
-  private static UpdateHelper.FieldExtensions getFieldExtensions () {
+  private static UpdateHelper.FieldExtensions getFieldExtensions() {
     UpdateHelper.Scope scope = getUpdateHelperScope();
     scope.triggerScope.isUpdate = true;
 
@@ -85,7 +88,7 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private static UpdateHelper.FutureFieldExtensions getFutureFieldExtensions () {
+  private static UpdateHelper.FutureFieldExtensions getFutureFieldExtensions() {
     UpdateHelper.Scope scope = getUpdateHelperScope();
     scope.triggerScope.isUpdate = true;
 
@@ -96,8 +99,11 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope (CoreHelper.TriggerScope ts, Object[] values) {
-    Account record = (Account)ts.oldMap.values().get(0);
+  private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope(
+    CoreHelper.TriggerScope ts,
+    Object[] values
+  ) {
+    Account record = (Account) ts.oldMap.values().get(0);
 
     UpdateHelper.Scope uhs = new UpdateHelper.Scope();
     uhs.externalInit(ts, record);
@@ -109,25 +115,30 @@ public class TestingHelper {
   }
 
   @TestVisible
-  private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope (Object[] values) {
+  private static CoreHelper.FieldExtensionsScope getFieldExtensionsScope(
+    Object[] values
+  ) {
     CoreHelper.TriggerScope ts = getTriggerScope();
     return getFieldExtensionsScope(ts, values);
   }
 
   @TestVisible
-  private static void stubCoreHelper (CoreHelper.TriggerScope scope) {
+  private static void stubCoreHelper(CoreHelper.TriggerScope scope) {
     CoreHelperMock mock = new CoreHelperMock(scope);
-    CoreHelper.mockableInstance = (CoreHelper)Test.createStub(CoreHelper.class, mock);
+    CoreHelper.mockableInstance = (CoreHelper) Test.createStub(
+      CoreHelper.class,
+      mock
+    );
   }
 
   private class CoreHelperMock implements System.StubProvider {
     private final CoreHelper.TriggerScope triggerScope;
 
-    public CoreHelperMock (CoreHelper.TriggerScope triggerScope) {
+    public CoreHelperMock(CoreHelper.TriggerScope triggerScope) {
       this.triggerScope = triggerScope;
     }
 
-    public Object handleMethodCall (
+    public Object handleMethodCall(
       Object stubbedObject,
       String stubbedMethodName,
       Type returnType,
@@ -150,5 +161,4 @@ public class TestingHelper {
   /* bundler-inject ScopeTest */
   /* bundler-inject SetHelperTest */
   /* bundler-inject UpdateHelperTest */
-
 }

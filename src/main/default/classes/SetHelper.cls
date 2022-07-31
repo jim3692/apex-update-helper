@@ -4,17 +4,19 @@ public class SetHelper {
   private final List<SObject> records;
   private final List<WhenTheExtensions> checks;
 
-  public static SetHelper of (List<SObject> records) {
+  public static SetHelper of(List<SObject> records) {
     return new SetHelper(records);
   }
 
-  private SetHelper (List<SObject> records) {
+  private SetHelper(List<SObject> records) {
     this.triggerScope = CoreHelper.getTriggerScope();
     this.records = records;
     this.checks = new List<WhenTheExtensions>();
   }
 
-  public WhenTheExtensions whenThe (UpdateHelper.FutureFieldExtensionsExecutor check) {
+  public WhenTheExtensions whenThe(
+    UpdateHelper.FutureFieldExtensionsExecutor check
+  ) {
     if (check == null) {
       throw new NullExtensionsException('Executor cannot be null');
     }
@@ -25,7 +27,7 @@ public class SetHelper {
     return extensions;
   }
 
-  public void run () {
+  public void run() {
     for (SObject record : records) {
       UpdateHelper.Scope updateHelperScope = new UpdateHelper.Scope();
       updateHelperScope.externalInit(triggerScope, record);
@@ -35,8 +37,11 @@ public class SetHelper {
     }
   }
 
-  public class WhenTheExtensions extends SHExt_WhenTheExtensions {}
+  public class WhenTheExtensions extends SHExt_WhenTheExtensions {
+  }
 
-  public class NullExtensionsException extends Exception {}
-  public class NullSetException extends Exception {}
+  public class NullExtensionsException extends Exception {
+  }
+  public class NullSetException extends Exception {
+  }
 }

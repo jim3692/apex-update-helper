@@ -1,9 +1,18 @@
 public abstract class CHExt_FieldExtensionsScope {
-  /* bundler-make-final */ public UpdateHelper.Scope helperScope { get; private set; }
+  /* bundler-make-final */ public UpdateHelper.Scope helperScope {
+    get;
+    private set;
+  }
   /* bundler-make-final */ public SObjectField field { get; private set; }
 
-  /* bundler-make-final */ public Schema.DescribeFieldResult fieldDescribe { get; private set; }
-  /* bundler-make-final */ public Schema.DescribeSObjectResult sobjectDescribe { get; private set; }
+  /* bundler-make-final */ public Schema.DescribeFieldResult fieldDescribe {
+    get;
+    private set;
+  }
+  /* bundler-make-final */ public Schema.DescribeSObjectResult sobjectDescribe {
+    get;
+    private set;
+  }
   /* bundler-make-final */ public String fieldName { get; private set; }
 
   /* bundler-make-final */ public SObject oldRecord { get; private set; }
@@ -13,7 +22,7 @@ public abstract class CHExt_FieldExtensionsScope {
 
   /* bundler-make-final */ public Object[] values { get; private set; }
 
-  public void externalInit (UpdateHelper.Scope helperScope, SObjectField field) {
+  public void externalInit(UpdateHelper.Scope helperScope, SObjectField field) {
     this.helperScope = helperScope;
     this.field = field;
 
@@ -27,12 +36,16 @@ public abstract class CHExt_FieldExtensionsScope {
     this.newValue = this.newRecord?.get(this.fieldName);
   }
 
-  public void externalInit (UpdateHelper.Scope helperScope, SObjectField field, Object[] values) {
+  public void externalInit(
+    UpdateHelper.Scope helperScope,
+    SObjectField field,
+    Object[] values
+  ) {
     externalInit(helperScope, field);
     this.values = values;
   }
 
-  public CoreHelper.FieldExtensionsScope copyWithValues (Object[] values) {
+  public CoreHelper.FieldExtensionsScope copyWithValues(Object[] values) {
     CoreHelper.FieldExtensionsScope newScope = new CoreHelper.FieldExtensionsScope();
     newScope.externalInit(this.helperScope, this.field, values);
     return newScope;

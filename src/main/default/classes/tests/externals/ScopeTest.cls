@@ -1,15 +1,14 @@
 @IsTest
 class ScopeTest {
-
   @IsTest
-  static void triggerScope () {
+  static void triggerScope() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     System.assertEquals(null, ts.oldMap);
     System.assertEquals(null, ts.newMap);
     System.assert(!ts.isUpdate);
 
-    ts.oldMap = new Map<Id,SObject>();
-    ts.newMap = new Map<Id,SObject>();
+    ts.oldMap = new Map<Id, SObject>();
+    ts.newMap = new Map<Id, SObject>();
     System.assertNotEquals(null, ts.oldMap);
     System.assertNotEquals(null, ts.newMap);
     System.assert(!ts.isUpdate);
@@ -21,7 +20,7 @@ class ScopeTest {
   }
 
   @IsTest
-  static void updateHelperScopeWithoutId () {
+  static void updateHelperScopeWithoutId() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Account record = new Account();
 
@@ -36,7 +35,7 @@ class ScopeTest {
   }
 
   @IsTest
-  static void updateHelperScopeWithId () {
+  static void updateHelperScopeWithId() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
     Account record = new Account(Id = fakeId);
@@ -52,13 +51,13 @@ class ScopeTest {
   }
 
   @IsTest
-  static void updateHelperScopeWithIdAndTriggerScope () {
+  static void updateHelperScopeWithIdAndTriggerScope() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
     Account oldRecord = new Account(Id = fakeId, Name = 'old');
     Account newRecord = new Account(Id = fakeId, Name = 'new');
-    ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-    ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    ts.oldMap = new Map<Id, Account>{ fakeId => oldRecord };
+    ts.newMap = new Map<Id, Account>{ fakeId => newRecord };
 
     {
       UpdateHelper.Scope uhsFromOld = new UpdateHelper.Scope();
@@ -67,7 +66,10 @@ class ScopeTest {
       System.assertNotEquals(null, uhsFromOld.triggerScope);
       System.assertEquals(oldRecord, uhsFromOld.oldRecord);
       System.assertEquals(newRecord, uhsFromOld.newRecord);
-      System.assertEquals(Account.getSObjectType().getDescribe(), uhsFromOld.describe);
+      System.assertEquals(
+        Account.getSObjectType().getDescribe(),
+        uhsFromOld.describe
+      );
       System.assertEquals(fakeId, uhsFromOld.recordId);
     }
 
@@ -78,13 +80,16 @@ class ScopeTest {
       System.assertNotEquals(null, uhsFromNew.triggerScope);
       System.assertEquals(oldRecord, uhsFromNew.oldRecord);
       System.assertEquals(newRecord, uhsFromNew.newRecord);
-      System.assertEquals(Account.getSObjectType().getDescribe(), uhsFromNew.describe);
+      System.assertEquals(
+        Account.getSObjectType().getDescribe(),
+        uhsFromNew.describe
+      );
       System.assertEquals(fakeId, uhsFromNew.recordId);
     }
   }
 
   @IsTest
-  static void fieldExtensionsScopeWithoutId () {
+  static void fieldExtensionsScopeWithoutId() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Account record = new Account();
 
@@ -97,7 +102,10 @@ class ScopeTest {
     System.assertEquals(uhs, fes.helperScope);
     System.assertEquals(Account.Name, fes.field);
     System.assertEquals(Account.Name.getDescribe(), fes.fieldDescribe);
-    System.assertEquals(Account.getSObjectType().getDescribe(), fes.sobjectDescribe);
+    System.assertEquals(
+      Account.getSObjectType().getDescribe(),
+      fes.sobjectDescribe
+    );
     System.assertEquals('name', fes.fieldName);
     System.assertEquals(null, fes.oldRecord);
     System.assertEquals(record, fes.newRecord);
@@ -107,7 +115,7 @@ class ScopeTest {
   }
 
   @IsTest
-  static void fieldExtensionsScopeValues () {
+  static void fieldExtensionsScopeValues() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Account record = new Account();
     List<String> values = new List<String>{ 'a', 'b', 'c' };
@@ -121,8 +129,14 @@ class ScopeTest {
 
       System.assertEquals(uhs, fesValuesFromConstructor.helperScope);
       System.assertEquals(Account.Name, fesValuesFromConstructor.field);
-      System.assertEquals(Account.Name.getDescribe(), fesValuesFromConstructor.fieldDescribe);
-      System.assertEquals(Account.getSObjectType().getDescribe(), fesValuesFromConstructor.sobjectDescribe);
+      System.assertEquals(
+        Account.Name.getDescribe(),
+        fesValuesFromConstructor.fieldDescribe
+      );
+      System.assertEquals(
+        Account.getSObjectType().getDescribe(),
+        fesValuesFromConstructor.sobjectDescribe
+      );
       System.assertEquals('name', fesValuesFromConstructor.fieldName);
       System.assertEquals(null, fesValuesFromConstructor.oldRecord);
       System.assertEquals(record, fesValuesFromConstructor.newRecord);
@@ -138,8 +152,14 @@ class ScopeTest {
 
       System.assertEquals(uhs, fesValuesFromCopy.helperScope);
       System.assertEquals(Account.Name, fesValuesFromCopy.field);
-      System.assertEquals(Account.Name.getDescribe(), fesValuesFromCopy.fieldDescribe);
-      System.assertEquals(Account.getSObjectType().getDescribe(), fesValuesFromCopy.sobjectDescribe);
+      System.assertEquals(
+        Account.Name.getDescribe(),
+        fesValuesFromCopy.fieldDescribe
+      );
+      System.assertEquals(
+        Account.getSObjectType().getDescribe(),
+        fesValuesFromCopy.sobjectDescribe
+      );
       System.assertEquals('name', fesValuesFromCopy.fieldName);
       System.assertEquals(null, fesValuesFromCopy.oldRecord);
       System.assertEquals(record, fesValuesFromCopy.newRecord);
@@ -150,7 +170,7 @@ class ScopeTest {
   }
 
   @IsTest
-  static void fieldExtensionsScopeWithId () {
+  static void fieldExtensionsScopeWithId() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
     Account record = new Account(Id = fakeId);
@@ -164,7 +184,10 @@ class ScopeTest {
     System.assertEquals(uhs, fes.helperScope);
     System.assertEquals(Account.Name, fes.field);
     System.assertEquals(Account.Name.getDescribe(), fes.fieldDescribe);
-    System.assertEquals(Account.getSObjectType().getDescribe(), fes.sobjectDescribe);
+    System.assertEquals(
+      Account.getSObjectType().getDescribe(),
+      fes.sobjectDescribe
+    );
     System.assertEquals('name', fes.fieldName);
     System.assertEquals(null, fes.oldRecord);
     System.assertEquals(record, fes.newRecord);
@@ -174,13 +197,13 @@ class ScopeTest {
   }
 
   @IsTest
-  static void fieldExtensionsScopeWithIdAndTriggerScope () {
+  static void fieldExtensionsScopeWithIdAndTriggerScope() {
     CoreHelper.TriggerScope ts = new CoreHelper.TriggerScope();
     Id fakeId = TestingHelper.getFakeId(Account.SObjectType);
     Account oldRecord = new Account(Id = fakeId, Name = 'old');
     Account newRecord = new Account(Id = fakeId, Name = 'new');
-    ts.oldMap = new Map<Id,Account>{fakeId => oldRecord};
-    ts.newMap = new Map<Id,Account>{fakeId => newRecord};
+    ts.oldMap = new Map<Id, Account>{ fakeId => oldRecord };
+    ts.newMap = new Map<Id, Account>{ fakeId => newRecord };
 
     {
       UpdateHelper.Scope uhsOld = new UpdateHelper.Scope();
@@ -192,7 +215,10 @@ class ScopeTest {
       System.assertEquals(uhsOld, fesOld.helperScope);
       System.assertEquals(Account.Name, fesOld.field);
       System.assertEquals(Account.Name.getDescribe(), fesOld.fieldDescribe);
-      System.assertEquals(Account.getSObjectType().getDescribe(), fesOld.sobjectDescribe);
+      System.assertEquals(
+        Account.getSObjectType().getDescribe(),
+        fesOld.sobjectDescribe
+      );
       System.assertEquals('name', fesOld.fieldName);
       System.assertEquals(oldRecord, fesOld.oldRecord);
       System.assertEquals(newRecord, fesOld.newRecord);
@@ -213,7 +239,10 @@ class ScopeTest {
       System.assertEquals(uhsNew, fesNew.helperScope);
       System.assertEquals(Account.Name, fesNew.field);
       System.assertEquals(Account.Name.getDescribe(), fesNew.fieldDescribe);
-      System.assertEquals(Account.getSObjectType().getDescribe(), fesNew.sobjectDescribe);
+      System.assertEquals(
+        Account.getSObjectType().getDescribe(),
+        fesNew.sobjectDescribe
+      );
       System.assertEquals('name', fesNew.fieldName);
       System.assertEquals(oldRecord, fesNew.oldRecord);
       System.assertEquals(newRecord, fesNew.newRecord);
@@ -224,5 +253,4 @@ class ScopeTest {
       System.assertEquals(null, fesNew.values);
     }
   }
-
 }
