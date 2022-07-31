@@ -13,6 +13,7 @@ CLASS_REGEX="[A-Z](\d|\w|_)+"
 
 [ -d .build ] && rm -rf .build
 cp -r src .build
+npm run prettier:format:build
 
 cd $CLASSES_PATH
 
@@ -142,6 +143,14 @@ function fixClass () {
 
     # Inject base class to outer class
     extendedClassLine=$(cat $outerClassPath | grep "$extendedClass")
+
+    ## Remove closing brace from next line
+    if egrep -q "{$" <<< "$extendedClassLine"; then
+      lineNumber=$(grep -n "$extendedClassLine" $outerClassPath | gawk '{print $1}' FS=":" | head -n 1)
+      lineNumber=$(expr $lineNumber + 1)
+      sed -i -e "${lineNumber}d" $outerClassPath
+    fi
+
     sed -i "s|$extendedClassLine|$(escapeFile $baseClassPath)|g" $outerClassPath
   done
 }
@@ -230,3 +239,5 @@ echo "$testExternals" | while IFS= read -r line; do rm $line; done
 echo "$classes" | while IFS= read -r line; do [ -f $line ] && beautify $line ; done
 
 find './' -empty -type d -delete
+
+npm run prettier:format:build
